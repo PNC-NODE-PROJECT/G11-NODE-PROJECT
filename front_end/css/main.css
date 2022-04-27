@@ -1,0 +1,42 @@
+body {
+    margin: 0 auto;
+    padding: 0;
+}
+
+/* PUBLIC STYLE */
+.navigation,
+.f-column {
+    align-items: center;
+}
+
+.type-style {
+    list-style-type: none;
+}
+
+.decoration {
+    text-decoration: none;
+}
+
+.bg-brown {
+    background-color: rgb(185, 47, 47);
+}
+
+.f-column {
+    flex-direction: column;
+}
+
+.border-none {
+    border: none;    
+}
+
+/* NAVIGATION BAR */
+
+.menu {
+    text-transform: uppercase;
+    font-size: large;
+    font-weight: bolder;
+}
+
+.welcome-btn:hover {
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
