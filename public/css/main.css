@@ -5,8 +5,17 @@ body {
 
 /* PUBLIC STYLE */
 .navigation,
-.f-column {
+.f-column,
+#questions-dialog,
+.ans-group,
+.align-center {
     align-items: center;
+}
+
+.navigation {
+    position: sticky;
+    top: 0;
+    z-index: 00000;
 }
 
 .type-style {
