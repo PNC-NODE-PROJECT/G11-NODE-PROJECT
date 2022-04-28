@@ -26,6 +26,8 @@ router.get("/all",(req, res)=>{
   })
 })
 
+//DELET QUESTION 
+
 
 
 module.exports= router;
