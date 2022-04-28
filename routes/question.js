@@ -4,7 +4,6 @@ router.use(express.json());
 const QuestionModel = require("../model/question_model");
 
 
-
 // ADD QUESTIONS
 router.post("/create",(req, res)=>{
   QuestionModel.create(req.body)
@@ -16,6 +15,16 @@ router.post("/create",(req, res)=>{
   })
 })
 
+//GET ALL QUESTION
+router.get("/all",(req, res)=>{
+  QuestionModel.find()
+  .then((result)=>{
+    res.send(result)
+  })
+  .catch((error)=>{
+    res.send(error)
+  })
+})
 
 
 
