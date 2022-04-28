@@ -1,15 +1,12 @@
 
-
+require('dotenv').config();
 const mongoose = require("mongoose");
 
+// CONNECT TO MONGODB 
+mongoose.connect(process.env.DATABASE_URL);
 
-
-// TODO: Connect to MangoDB
-mongoose.connect('mongodb://127.0.0.1:27017/quiz-app');
-
-// defind schema
-
-const QuestionScheama= new mongoose.Schema({
+// DEFIND SCHEAMA
+const QuestionSchema= new mongoose.Schema({
     question: {
         type: String,
         required: true
@@ -42,9 +39,10 @@ const QuestionScheama= new mongoose.Schema({
     }
 });
 
-// Create the Model for the question collection from Schema
-const QuestionModel = mongoose.model("questions",QuestionScheama);
+
+//CREATE THE MODEL FOR THE QUESTION COLLECTION FROM SCHEMA
+const QuestionModel = mongoose.model("questions",QuestionSchema);
 
 
-// import module
+// IPORT MODULE
 module.exports = QuestionModel;

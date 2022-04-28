@@ -5,10 +5,8 @@ const QuestionModel = require("../model/question_model");
 
 
 
-
-
 // ADD QUESTIONS
-router.post("/addQuestion",(req, res)=>{
+router.post("/create",(req, res)=>{
   QuestionModel.create(req.body)
   .then((result)=>{
     res.send(result)
@@ -17,6 +15,7 @@ router.post("/addQuestion",(req, res)=>{
     res.send(error)
   })
 })
+
 
 
 
