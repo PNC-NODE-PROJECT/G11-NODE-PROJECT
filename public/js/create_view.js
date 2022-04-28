@@ -1,4 +1,5 @@
 
+
 // HIDE
 function hide(ele) {
     ele.style.visibility = "hidden";
@@ -120,11 +121,13 @@ function displayQuestions() {
             let editMenu = document.createElement("i");
             editMenu.className = "material-icons me-3 c-pointer hover-color-orange";
             editMenu.textContent = "edit";
+            editMenu.id = "edit";
             headerMenu.appendChild(editMenu);
 
             let deleteMenu = document.createElement("i");
             deleteMenu.className = "material-icons me-3 c-pointer hover-color-orange";
             deleteMenu.textContent = "delete";
+            deleteMenu.id = "delete";
             headerMenu.appendChild(deleteMenu);
 
             let cardFooter = document.createElement("div");
@@ -211,6 +214,29 @@ function displayQuestions() {
 }
 
 
+// CHECK USER CLICK MENU ON QUESTION
+function onQuestionMenu(e) {
+    let questionId = e.target.parentNode.parentNode.parentNode.id;
+    if (e.target.id == "delete") {
+        if (confirm("Are you sure to delete this question?")) {
+            onDeleteQuestion(questionId);
+        }
+    }
+}
+
+// DELETE A QUESTION
+function onDeleteQuestion(id) {
+    axios.delete("/questions/delete/" + id).then((response) => {
+        console.log("Question deleted");
+        displayQuestions();
+    }).catch((error) => {
+        console.log(error);
+    })
+}
+
+
+
+
 
 
 // FORM ELEMENTS
@@ -231,6 +257,7 @@ const questionList = document.querySelector("#question-list");
 
 btnCreateQuestion.addEventListener("click", onAddquestion);
 dialogMenu.addEventListener("click", onClickDialog);
+questionList.addEventListener("click", onQuestionMenu);
 
 
 displayQuestions();
