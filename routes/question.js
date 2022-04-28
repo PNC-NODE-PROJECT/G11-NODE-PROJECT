@@ -27,6 +27,16 @@ router.get("/all",(req, res)=>{
 })
 
 //DELET QUESTION 
+router.delete("/delete/:id",(req,res)=>{
+  QuestionModel.deleteOne({_id:req.params.id})
+  .then((result)=>{
+    res.send(result)
+  })
+  .catch((error)=>{
+    res.send(error)
+  })
+})
+
 
 
 
