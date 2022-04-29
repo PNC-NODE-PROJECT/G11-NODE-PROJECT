@@ -23,10 +23,11 @@ function onClickDialog(e) {
         hide(questionDialog);
         show(btnCreateQuestion);
         refreshQuestionForm();
+        dialogBtnCreate.textContent = "Create";
     } else if (clickTarget == "Create") {
         onCreateQuestion();
     } else if (clickTarget == "Save") {
-        onSaveUpdate();
+        onSaveUpdate(formQuestionID.value);
     }
 }
 
@@ -244,22 +245,51 @@ function onPreEditQuestion(id) {
     show(questionDialog);
     hide(btnCreateQuestion);
     dialogBtnCreate.textContent = "Save";
+    formQuestionID.value = id;
     axios.get("/questions/one/"+id).then((response) => {
-        let question = response.data;
-        formQuestion.textContent = question.question;
-        answersA.textContent = question.answers.A;
-        answersB.textContent = question.answers.B;
-        answersC.textContent = question.answers.C;
-        answersD.textContent = question.answers.D;
+        let question = response.data[0];
+        formQuestion.value = question.question;
+        answersA.value = question.answers.A;
+        answersB.value = question.answers.B;
+        answersC.value = question.answers.C;
+        answersD.value = question.answers.D;
         formScore.value = question.score;
         formCorrect.forEach(element => {
             if (element.value == question.correct) {
-                element.checked == true;
+                element.checked = true;
             }
         });
     }).then((error) => {
         console.log(error);
     })
+}
+
+// SAVE UPDATE
+function onSaveUpdate(id) {
+    let question = formQuestion.value;
+    let answers = {A: answersA.value, B: answersB.value, C: answersC.value, D: answersD.value};
+    let correct = "A";
+    for (let item of formCorrect) {
+        if (item.checked == true) {
+            correct = item.value;
+        }
+    }
+    let score = formScore.value;
+    if (question && answers.A && answers.B && answers.C && answers.D && correct && score) {
+        axios.put("/questions/update/"+id, {question: question, answers: answers, correct: correct, score: score}).then((response) => {
+            console.log("Update success");
+        }).then((error)=>{
+            console.log(error);
+        })
+        hide(questionDialog);
+        show(btnCreateQuestion);
+        refreshQuestionForm();
+        displayQuestions();
+        dialogBtnCreate.textContent = "Create";
+    } else {
+        console.log("Adding failed");
+    }
+
 }
 
 
@@ -274,6 +304,7 @@ const answersC = document.querySelector("#choiceC");
 const answersD = document.querySelector("#choiceD");
 const formCorrect = document.querySelectorAll("input[name=correct-ans]");
 const formScore = document.querySelector("#score");
+const formQuestionID = document.querySelector("#formQuestId");
 
 // MAIN
 const questionDialog = document.querySelector("#questions-dialog");
