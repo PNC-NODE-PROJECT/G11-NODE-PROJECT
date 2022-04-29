@@ -262,11 +262,27 @@ function onPreEditQuestion(id) {
         answersC.value = question.answers.C;
         answersD.value = question.answers.D;
         formScore.value = question.score;
-        formCorrect.forEach(element => {
-            if (element.value == question.correct) {
-                element.checked = true;
-            }
-        });
+        if (question.correct.length > 1) {
+            activeManyAnswers.checked = true;
+            formCorrect.forEach(element => {
+                element.type = "checkbox";
+                element.checked = false;
+                if (question.correct.includes(element.value)) {
+                    element.checked = true;
+                }
+            })
+            formCorrect.forEach(element => {
+                if (question.correct.includes(element.value)) {
+                    element.checked = true;
+                }
+            });
+        } else {
+            formCorrect.forEach(element => {
+                if (element.value == question.correct) {
+                    element.checked = true;
+                }
+            });
+        }
     }).then((error) => {
         console.log(error);
     })
@@ -276,10 +292,10 @@ function onPreEditQuestion(id) {
 function onSaveUpdate(id) {
     let question = formQuestion.value;
     let answers = {A: answersA.value, B: answersB.value, C: answersC.value, D: answersD.value};
-    let correct = "A";
+    let correct = [];
     for (let item of formCorrect) {
         if (item.checked == true) {
-            correct = item.value;
+            correct.push(item.value);
         }
     }
     let score = formScore.value;
