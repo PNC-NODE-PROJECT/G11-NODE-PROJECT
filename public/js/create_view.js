@@ -1,14 +1,6 @@
 
+import {hide, show} from "./hide_show.js";
 
-// HIDE
-function hide(ele) {
-    ele.style.visibility = "hidden";
-}
-
-// SHOW
-function show(ele) {
-    ele.style.visibility = "visible";
-}
 
 // BUTTON ADD QUESTION
 function onAddquestion() {
@@ -345,7 +337,7 @@ const formScore = document.querySelector("#score");
 const formQuestionID = document.querySelector("#formQuestId");
 
 // MAIN
-const questionDialog = document.querySelector("#questions-dialog");
+const questionDialog = document.querySelector("#quest-dialog-container");
 const btnCreateQuestion = document.querySelector(".btn-create-question");
 const dialogMenu = document.querySelector(".dialog-menu");
 const questionList = document.querySelector("#question-list");

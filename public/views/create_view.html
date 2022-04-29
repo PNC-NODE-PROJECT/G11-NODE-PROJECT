@@ -21,52 +21,54 @@
         </ul>
     </nav>
 
-    <div class="d-flex" id="questions-dialog" style="visibility: hidden">
-        <dialog open class="m-auto">
-            <h5 class="m-auto text-center mt-4">Create new question</h5>
+    <div style="display: none;" id="quest-dialog-container">
+        <div class="d-flex" id="questions-dialog">
+            <dialog open class="m-auto">
+                <h5 class="m-auto text-center mt-4">Create new question</h5>
 
-            <section class="width-90 m-auto">
+                <section class="width-90 m-auto">
 
-                <h6 class="mt-3">Question</h6>
-                <input class="border-none focus-orange no-outline title-input w-100 py-1" id="title" type="text" placeholder="Question" />
+                    <h6 class="mt-3">Question</h6>
+                    <input class="border-none focus-orange no-outline title-input w-100 py-1" id="title" type="text" placeholder="Question" />
 
-                <div class="mt-3 d-flex justify-content-between">
-                    <div class="d-flex align-center">
-                        <input type="checkbox" name="many-answers" id="many-answers">
-                        <label class="ms-2 text-bold text-primary" for="many-answers">Many answers</label>
+                    <div class="mt-3 d-flex justify-content-between">
+                        <div class="d-flex align-center">
+                            <input type="checkbox" name="many-answers" id="many-answers">
+                            <label class="ms-2 text-bold text-primary" for="many-answers">Many answers</label>
+                        </div>
+                        <div class="d-flex align-center">
+                            <h6 class="me-2">Score:</h6>
+                            <input class="no-outline input-score" id="score" type="number" value="0">
+                        </div>
                     </div>
-                    <div class="d-flex align-center">
-                        <h6 class="me-2">Score:</h6>
-                        <input class="no-outline input-score" id="score" type="number" value="0">
+
+                    <div class="d-flex ans-group mt-2">
+                        <input id="correct-ans" name="correct-ans" type="radio" value="A" checked>
+                        <input class="border-none focus-orange no-outline title-input w-100 ms-2 py-1" id="choiceA" type="text" placeholder="Answer A" > 
                     </div>
-                </div>
+                    <div class="d-flex ans-group mt-3">
+                        <input id="correct-ans" name="correct-ans" type="radio" value="B">
+                        <input class="border-none focus-orange no-outline title-input w-100 ms-2 py-1" id="choiceB" type="text" placeholder="Answer B" > 
+                    </div>
+                    <div class="d-flex ans-group mt-3">
+                        <input id="correct-ans" name="correct-ans" type="radio" value="C">
+                        <input class="border-none focus-orange no-outline title-input w-100 ms-2 py-1" id="choiceC" type="text" placeholder="Answer C" > 
+                    </div>
+                    <div class="d-flex ans-group mt-3">
+                        <input id="correct-ans" name="correct-ans" type="radio" value="D">
+                        <input class="border-none focus-orange no-outline title-input w-100 ms-2 py-1" id="choiceD" type="text" placeholder="Answer D" > 
+                    </div>
 
-                <div class="d-flex ans-group mt-2">
-                    <input id="correct-ans" name="correct-ans" type="radio" value="A" checked>
-                    <input class="border-none focus-orange no-outline title-input w-100 ms-2 py-1" id="choiceA" type="text" placeholder="Answer A" > 
+                </section>
+                <input type="hidden" name="formQuestId" id="formQuestId" value="">
+                <div class="d-flex justify-content-end me-4 mt-4 mb-4 dialog-menu">
+                    <button class="me-3 bg-danger no-outline border-none px-5 py-2 rounded-3 text-light" id="cancel">Cancel</button>
+                    <button class="me-3 bg-orange no-outline border-none px-5 py-2 rounded-3 text-light" id="create">Create</button>
                 </div>
-                <div class="d-flex ans-group mt-3">
-                    <input id="correct-ans" name="correct-ans" type="radio" value="B">
-                    <input class="border-none focus-orange no-outline title-input w-100 ms-2 py-1" id="choiceB" type="text" placeholder="Answer B" > 
-                </div>
-                <div class="d-flex ans-group mt-3">
-                    <input id="correct-ans" name="correct-ans" type="radio" value="C">
-                    <input class="border-none focus-orange no-outline title-input w-100 ms-2 py-1" id="choiceC" type="text" placeholder="Answer C" > 
-                </div>
-                <div class="d-flex ans-group mt-3">
-                    <input id="correct-ans" name="correct-ans" type="radio" value="D">
-                    <input class="border-none focus-orange no-outline title-input w-100 ms-2 py-1" id="choiceD" type="text" placeholder="Answer D" > 
-                </div>
-
-            </section>
-            <input type="hidden" name="formQuestId" id="formQuestId" value="">
-            <div class="d-flex justify-content-end me-4 mt-4 mb-4 dialog-menu">
-                <button class="me-3 bg-danger no-outline border-none px-5 py-2 rounded-3 text-light" id="cancel">Cancel</button>
-                <button class="me-3 bg-orange no-outline border-none px-5 py-2 rounded-3 text-light" id="create">Create</button>
-            </div>
-        </dialog>
+            </dialog>
+        </div>
     </div>
-    <div class="my-shadow mt-5 w-75 m-auto my-border-top">
+    <div class="my-shadow mt-5 w-75 m-auto my-border-top" style="display: none;">
         <div>
             <h3 class="ms-4 mt-1">Quiz title</h3>
         </div>
@@ -87,5 +89,5 @@
     </div>
 
   </body>
-  <script src="../js/create_view.js"></script>
+  <script src="../js/create_view.js" type="module"></script>
 </html>

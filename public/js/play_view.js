@@ -1,15 +1,5 @@
 
-// import {show} from "./create_view.js";
-
-// HIDE
-function hide(ele) {
-    ele.style.display = "none";
-}
-
-// SHOW
-function show(ele) {
-    ele.style.display = "block";
-}
+import {hide, show} from "./hide_show.js";
 
 
 
@@ -106,6 +96,15 @@ function showQuestionOnDom(item) {
     ansB.textContent = item.answers.B;
     ansC.textContent = item.answers.C;
     ansD.textContent = item.answers.D;
+    if (item.correct.length > 1) {
+        domAnswers.forEach(element => {
+            element.type = "checkbox";
+        })
+    } else {
+        domAnswers.forEach(element => {
+            element.type = "radio";
+        })
+    }
 }
 
 // DURATION
