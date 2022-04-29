@@ -37,6 +37,22 @@ router.delete("/delete/:id",(req,res)=>{
   })
 })
 
+//UDATE QUESTION
+router.put("/update/:id", (req,res)=>{
+  QuestionModel.updateMany(
+  {_id:req.params.id}, 
+  {"question":req.body.question,
+  "answers":req.body.answers,
+  "correct":req.body.correct,
+  "score":req.body.score})
+  .then((result)=>{
+    res.send(result)
+  })
+  .catch((error)=>{
+    res.send(error)
+  })
+})
+
 
 
 module.exports= router;
