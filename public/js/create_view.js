@@ -18,13 +18,15 @@ function onAddquestion() {
 
 // CLICKING ON FORM
 function onClickDialog(e) {
-    let clickTarget = e.target.id;
-    if (clickTarget == "cancel") {
+    let clickTarget = e.target.textContent;
+    if (clickTarget == "Cancel") {
         hide(questionDialog);
         show(btnCreateQuestion);
         refreshQuestionForm();
-    } else if (clickTarget == "create") {
+    } else if (clickTarget == "Create") {
         onCreateQuestion();
+    } else if (clickTarget == "Save") {
+        onSaveUpdate();
     }
 }
 
@@ -221,6 +223,8 @@ function onQuestionMenu(e) {
         if (confirm("Are you sure to delete this question?")) {
             onDeleteQuestion(questionId);
         }
+    } else if (e.target.id == "edit") {
+        onPreEditQuestion(questionId);
     }
 }
 
@@ -234,6 +238,29 @@ function onDeleteQuestion(id) {
     })
 }
 
+
+// EDIT A QUESTION
+function onPreEditQuestion(id) {
+    show(questionDialog);
+    hide(btnCreateQuestion);
+    dialogBtnCreate.textContent = "Save";
+    axios.get("/questions/one/"+id).then((response) => {
+        let question = response.data;
+        formQuestion.textContent = question.question;
+        answersA.textContent = question.answers.A;
+        answersB.textContent = question.answers.B;
+        answersC.textContent = question.answers.C;
+        answersD.textContent = question.answers.D;
+        formScore.value = question.score;
+        formCorrect.forEach(element => {
+            if (element.value == question.correct) {
+                element.checked == true;
+            }
+        });
+    }).then((error) => {
+        console.log(error);
+    })
+}
 
 
 
@@ -253,6 +280,7 @@ const questionDialog = document.querySelector("#questions-dialog");
 const btnCreateQuestion = document.querySelector(".btn-create-question");
 const dialogMenu = document.querySelector(".dialog-menu");
 const questionList = document.querySelector("#question-list");
+const dialogBtnCreate = document.querySelector("#create");
 
 
 btnCreateQuestion.addEventListener("click", onAddquestion);
