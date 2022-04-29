@@ -54,11 +54,8 @@ function getSelectedAnswer() {
         }
         element.checked = false;
     })
-    if (!isSelected) {
-        selectedAnswers.push("!@#$");
-    }
+
     myAnswer.push(selectedAnswers);
-    console.log(selectedAnswers);
     loadQuestionNumber();
 }
 
@@ -167,7 +164,7 @@ function onClickAnswer(e) {
         activeAnswers.forEach(element => {
             if (element.id == targetID && element.checked == false) {
                 element.checked = true;
-            } else if (element.id == targetID && element.checked == true) {
+            } else if (element.id == targetID && element.checked == true && element.type == "checkbox") {
                 element.checked = false;
             }
         })
@@ -224,6 +221,10 @@ function displayCorrection() {
             scoreAndTitle.appendChild(questTitle);
 
             let headerMenu = document.createElement("div");
+            if (myAnswer[index].length == 0) {
+                headerMenu.textContent = "No answer selected!"
+                headerMenu.className = "text-danger me-2";
+            }
             cardheader.appendChild(headerMenu);
 
             let cardFooter = document.createElement("div");
@@ -234,129 +235,101 @@ function displayCorrection() {
             let answersA = document.createElement("div");
             answersA.className = "d-flex";
             cardFooter.appendChild(answersA);
+
             let ia = document.createElement("i");
             ia.className = "material-icons";
-            if (myAnswer[index] == "A") {
-                ia.textContent = "done_all";
-                if (goodBadAnswers[index]) {
-                    ia.style.color = "green";
-                } else if (!goodBadAnswers[index]) {
-                    ia.style.color = "red";
-                }
-            }
             answersA.appendChild(ia);
+
             let pa = document.createElement("p");
             pa.className = "ms-2";
             pa.textContent = item.answers.A;
-            if (item.correct == "A") {
-                pa.style.fontWeight = "bolder";
-                pa.style.color = "green";
-            }
-            if (myAnswer[index] == "A") {
-                pa.style.fontWeight = "bolder";
-                if (goodBadAnswers[index]) {
-                    pa.style.color = "green";
-                } else {
-                    pa.style.color = "red";
-                }
-            }
             answersA.appendChild(pa);
 
             //B
             let answersB = document.createElement("div");
             answersB.className = "d-flex";
             cardFooter.appendChild(answersB);
+
             let ib = document.createElement("i");
             ib.className = "material-icons";
-            if (myAnswer[index] == "B") {
-                ib.textContent = "done_all";
-                if (goodBadAnswers[index]) {
-                    ib.style.color = "green";
-                } else if (!goodBadAnswers[index]) {
-                    ib.style.color = "red";
-                }
-            }
             answersB.appendChild(ib);
+
             let pb = document.createElement("p");
             pb.className = "ms-2";
             pb.textContent = item.answers.B;
-            if (item.correct == "B") {
-                pb.style.fontWeight = "bolder";
-                pb.style.color = "green";
-            }
-            if (myAnswer[index] == "B") {
-                pb.style.fontWeight = "bolder";
-                if (goodBadAnswers[index]) {
-                    pb.style.color = "green";
-                } else {
-                    pb.style.color = "red";
-                }
-            }
             answersB.appendChild(pb);
 
             //C
             let answersC = document.createElement("div");
             answersC.className = "d-flex";
             cardFooter.appendChild(answersC);
+
             let ic = document.createElement("i");
             ic.className = "material-icons";
-            if (myAnswer[index] == "C") {
-                ic.textContent = "done_all";
-                if (goodBadAnswers[index]) {
-                    ic.style.color = "green";
-                } else if (!goodBadAnswers[index]) {
-                    ic.style.color = "red";
-                }
-            }
             answersC.appendChild(ic);
+
             let pc = document.createElement("p");
             pc.className = "ms-2";
             pc.textContent = item.answers.C;
-            if (item.correct == "C") {
-                pc.style.fontWeight = "bolder";
-                pc.style.color = "green";
-            }
-            if (myAnswer[index] == "C") {
-                pc.style.fontWeight = "bolder";
-                if (goodBadAnswers[index]) {
-                    pc.style.color = "green";
-                } else {
-                    pc.style.color = "red";
-                }
-            }
             answersC.appendChild(pc);
 
             // D
             let answersD = document.createElement("div");
             answersD.className = "d-flex";
             cardFooter.appendChild(answersD);
+
             let id = document.createElement("i");
             id.className = "material-icons";
-            if (myAnswer[index] == "D") {
-                id.textContent = "done_all";
-                if (goodBadAnswers[index]) {
-                    id.style.color = "green";
-                } else if (!goodBadAnswers[index]) {
-                    id.style.color = "red";
-                }
-            }
             answersD.appendChild(id);
+
             let pd = document.createElement("p");
             pd.className = "ms-2";
             pd.textContent = item.answers.D;
-            if (item.correct == "D") {
-                pd.style.fontWeight = "bolder";
+            answersD.appendChild(pd);
+
+            // UPDATE ANSWERS THAT ARE CORRECT
+            if (item.correct.includes("A")) {
+                ia.textContent = "done";
+                ia.style.color = "green";
+                pa.style.color = "green";
+            }
+            if (item.correct.includes("B")) {
+                ib.textContent = "done";
+                ib.style.color = "green";
+                pb.style.color = "green";
+            }
+            if (item.correct.includes("C")) {
+                ic.textContent = "done";
+                ic.style.color = "green";
+                pc.style.color = "green";
+            }
+            if (item.correct.includes("D")) {
+                id.textContent = "done";
+                id.style.color = "green";
                 pd.style.color = "green";
             }
-            if (myAnswer[index] == "D") {
-                pd.style.fontWeight = "bolder";
-                if (goodBadAnswers[index]) {
-                    pd.style.color = "green";
-                } else{
-                    pd.style.color = "red";
-                }
+
+            // UPDATE USER'S ANSWER
+            if (myAnswer[index].includes("A") && !goodBadAnswers[index] && !item.correct.includes("A")) {
+                ia.textContent = "close";
+                ia.style.color = "red";
+                pa.style.color = "red";
             }
-            answersD.appendChild(pd);
+            if (myAnswer[index].includes("B") && !goodBadAnswers[index] && !item.correct.includes("B")) {
+                ib.textContent = "close";
+                ib.style.color = "red";
+                pb.style.color = "red";
+            }
+            if (myAnswer[index].includes("C") && !goodBadAnswers[index] && !item.correct.includes("C")) {
+                ic.textContent = "close";
+                ic.style.color = "red";
+                pc.style.color = "red";
+            }
+            if (myAnswer[index].includes("D") && !goodBadAnswers[index] && !item.correct.includes("D")) {
+                id.textContent = "close";
+                id.style.color = "red";
+                pd.style.color = "red";
+            }
 
             index ++;
         }
