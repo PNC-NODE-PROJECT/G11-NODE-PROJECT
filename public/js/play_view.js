@@ -48,6 +48,9 @@ function startQuiz() {
 function loadQuestionNumber() {
     getAllQuestion(currentQuestNumb);
     currentQuestNumb += 1;
+    if (currentQuestNumb == questionAmount) {
+        btnNext.textContent = "SUBMIT";
+    }
 }
 
 // GET SELECTED ANSWER
@@ -92,6 +95,7 @@ function showScore() {
     show(computeScoreContainer);
     calculateScore();
     displayCorrection();
+    btnNext.textContent = "NEXT";
 };
 
 // UPDATE DOM
