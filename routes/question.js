@@ -53,6 +53,17 @@ router.put("/update/:id", (req,res)=>{
   })
 })
 
+//GET QUESTION BY ID
+
+router.get("/one/:id",(req, res)=>{
+  QuestionModel.find({_id:req.params.id})
+  .then((result)=>{
+    res.send(result)
+  })
+  .catch((error)=>{
+    res.send(error)
+  })
+})
 
 
 module.exports= router;
