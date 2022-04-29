@@ -35,10 +35,10 @@ function onClickDialog(e) {
 function onCreateQuestion() {
     let question = formQuestion.value;
     let answers = {A: answersA.value, B: answersB.value, C: answersC.value, D: answersD.value};
-    let correct = "A";
+    let correct = [];
     for (let item of formCorrect) {
         if (item.checked == true) {
-            correct = item.value;
+            correct.push(item.value);
         }
     }
     let score = formScore.value;
@@ -68,6 +68,10 @@ function refreshQuestionForm() {
     refreshInputText(answersD);
     refreshInputNumber(formScore);
     makeInputToChecked(formCorrect[0]);
+    formCorrect.forEach(element => {
+        element.type = "radio";
+    })
+    activeManyAnswers.checked = false;
 }
 
 // TO REFRESH INPUT TYPE TEXT TO NULL
@@ -143,16 +147,17 @@ function displayQuestions() {
             cardFooter.appendChild(answersA);
             let ia = document.createElement("i");
             ia.className = "material-icons";
-            if (item.correct == "A") {
-                ia.textContent = "radio_button_checked";
+            if (item.correct.includes("A")) {
+                ia.textContent = "done";
                 ia.style.color = "green";
-            } else {
-                ia.textContent = "radio_button_unchecked";
             }
             answersA.appendChild(ia);
             let pa = document.createElement("p");
             pa.className = "ms-2";
             pa.textContent = item.answers.A;
+            if (item.correct.includes("A")) {
+                pa.style.color = "green";
+            }
             answersA.appendChild(pa);
 
             //B
@@ -161,16 +166,17 @@ function displayQuestions() {
             cardFooter.appendChild(answersB);
             let ib = document.createElement("i");
             ib.className = "material-icons";
-            if (item.correct == "B") {
-                ib.textContent = "radio_button_checked";
+            if (item.correct.includes("B")) {
+                ib.textContent = "done";
                 ib.style.color = "green";
-            } else {
-                ib.textContent = "radio_button_unchecked";
             }
             answersB.appendChild(ib);
             let pb = document.createElement("p");
             pb.className = "ms-2";
             pb.textContent = item.answers.B;
+            if (item.correct.includes("B")) {
+                pb.style.color = "green";
+            }
             answersB.appendChild(pb);
 
             //C
@@ -179,16 +185,17 @@ function displayQuestions() {
             cardFooter.appendChild(answersC);
             let ic = document.createElement("i");
             ic.className = "material-icons";
-            if (item.correct == "C") {
-                ic.textContent = "radio_button_checked";
+            if (item.correct.includes("C")) {
+                ic.textContent = "done";
                 ic.style.color = "green";
-            } else {
-                ic.textContent = "radio_button_unchecked";
             }
             answersC.appendChild(ic);
             let pc = document.createElement("p");
             pc.className = "ms-2";
             pc.textContent = item.answers.C;
+            if (item.correct.includes("C")) {
+                pc.style.color = "green";
+            }
             answersC.appendChild(pc);
 
             // D
@@ -197,16 +204,17 @@ function displayQuestions() {
             cardFooter.appendChild(answersD);
             let id = document.createElement("i");
             id.className = "material-icons";
-            if (item.correct == "D") {
-                id.textContent = "radio_button_checked";
+            if (item.correct.includes("D")) {
+                id.textContent = "done";
                 id.style.color = "green";
-            } else {
-                id.textContent = "radio_button_unchecked";
             }
             answersD.appendChild(id);
             let pd = document.createElement("p");
             pd.className = "ms-2";
             pd.textContent = item.answers.D;
+            if (item.correct.includes("D")) {
+                pd.style.color = "green";
+            }
             answersD.appendChild(pd);
 
         }
@@ -292,6 +300,20 @@ function onSaveUpdate(id) {
 
 }
 
+// ACTIVE MANY ANSWERS
+function onManyAnswers() {
+    if (activeManyAnswers.checked == true) {
+        formCorrect.forEach(element => {
+            element.type = "checkbox";
+        })
+        formCorrect[0].checked = true;
+    } else {
+        formCorrect.forEach(element => {
+            element.type = "radio";
+        })
+        formCorrect[0].checked = true;
+    }
+}
 
 
 
@@ -312,11 +334,13 @@ const btnCreateQuestion = document.querySelector(".btn-create-question");
 const dialogMenu = document.querySelector(".dialog-menu");
 const questionList = document.querySelector("#question-list");
 const dialogBtnCreate = document.querySelector("#create");
+const activeManyAnswers = document.querySelector("#many-answers");
 
 
 btnCreateQuestion.addEventListener("click", onAddquestion);
 dialogMenu.addEventListener("click", onClickDialog);
 questionList.addEventListener("click", onQuestionMenu);
+activeManyAnswers.addEventListener("change", onManyAnswers);
 
 
 displayQuestions();

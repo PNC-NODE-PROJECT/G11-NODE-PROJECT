@@ -143,6 +143,15 @@ dialog {
     align-items: flex-end;
 }
 
+#many-answers {
+    transform: scale(1.3);
+    cursor: pointer;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
 /* PLAY VIEW */
 .btn-home-contain {
     width: 45px;

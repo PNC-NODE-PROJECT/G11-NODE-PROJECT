@@ -29,10 +29,7 @@ const QuestionSchema= new mongoose.Schema({
             required: true
         }
     },
-    correct: {
-        type: String,
-        required: true
-    },
+    correct: [String],
     score: {
         type: Number,
         required: true
