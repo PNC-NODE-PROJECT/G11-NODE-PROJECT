@@ -46,16 +46,19 @@ function loadQuestionNumber() {
 // GET SELECTED ANSWER
 function getSelectedAnswer() {
     let isSelected = false;
+    let selectedAnswers = []
     domAnswers.forEach(element => {
         if (element.checked == true) {
-            myAnswer.push(element.value);
+            selectedAnswers.push(element.value);
             isSelected = true;
         }
         element.checked = false;
     })
     if (!isSelected) {
-        myAnswer.push("!@#$");
+        selectedAnswers.push("!@#$");
     }
+    myAnswer.push(selectedAnswers);
+    console.log(selectedAnswers);
     loadQuestionNumber();
 }
 
@@ -65,12 +68,23 @@ function calculateScore() {
         let questions = response.data;
         let index = 0;
         for (let item of questions) {
-            if (item.correct == myAnswer[index]) {
+            let isCorrectAll = true;
+            if (item.correct.length == myAnswer[index].length) {
+                for (let ans of item.correct) {
+                    if (!myAnswer[index].includes(ans)) {
+                        isCorrectAll = false;
+                    }
+                }
+            } else {
+                isCorrectAll = false;
+            }
+            if (isCorrectAll) {
                 myScore += item.score;
                 goodBadAnswers.push(true);
             } else {
                 goodBadAnswers.push(false);
             }
+            
             index ++;
         }
         totalScore.textContent = myScore;
@@ -151,8 +165,10 @@ function onClickAnswer(e) {
     if (e.target.id == "answer-checkbox" || e.target.id == "answer-content") {
         let targetID = e.target.children[0].id;
         activeAnswers.forEach(element => {
-            if (element.id == targetID) {
+            if (element.id == targetID && element.checked == false) {
                 element.checked = true;
+            } else if (element.id == targetID && element.checked == true) {
+                element.checked = false;
             }
         })
     }
