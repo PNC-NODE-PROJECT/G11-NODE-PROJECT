@@ -9,7 +9,7 @@ import {hide, show} from "./hide_show.js";
 
 // START QUIZ
 function getAllQuestion(number) {
-    axios.get("/questions/all").then((response) => {
+    axios.post("/questions/owns", {creator: userId}).then((response) => {
         let questions = response.data;
         maxQuestion = questions.length;
 
@@ -64,7 +64,7 @@ function getSelectedAnswer() {
 
 // CALCULATE SCORE
 function calculateScore() {
-    axios.get("/questions/all").then((response) => {
+    axios.post("/questions/owns", {creator: userId}).then((response) => {
         let questions = response.data;
         let index = 0;
         for (let item of questions) {
@@ -177,7 +177,7 @@ function onClickAnswer(e) {
 
 // REFRESH QUESTIONS AMOUNT
 function amoutQuest() {
-    axios.get("/questions/all").then((response) => {
+    axios.post("/questions/owns", {creator: userId}).then((response) => {
         featureQuestAmount.textContent = response.data.length + " Questions";
         questionAmount = response.data.length;
     }).catch((error) => {
@@ -193,7 +193,7 @@ function displayCorrection() {
     }
 
     let index = 0;
-    axios.get("/questions/all").then((response) => {
+    axios.post("/questions/owns", {creator: userId}).then((response) => {
         let questions = response.data;
 
         // LOOP TO DISPLAY ALL CORRECTIONS
@@ -348,6 +348,7 @@ function displayCorrection() {
 
 
 // VARIABLES
+let userId = sessionStorage.userId;
 let questionAmount = 0;
 let maxScore = 0;
 let myScore = 0;
