@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 mongoose.connect(process.env.DATABASE_URL);
 
 // DEFIND SCHEAMA
-const RegisterSchema= new mongoose.Schema({
+const UserSchema= new mongoose.Schema({
     username: {
         type: String,
         required: true
@@ -23,8 +23,8 @@ const RegisterSchema= new mongoose.Schema({
 
 
 //CREATE THE MODEL FOR THE QUESTION COLLECTION FROM SCHEMA
-const RegisterModel = mongoose.model("users", RegisterSchema);
+const UserModel = mongoose.model("users", UserSchema);
 
 
 // IPORT MODULE
-module.exports =  RegisterModel;
+module.exports =  UserModel;
