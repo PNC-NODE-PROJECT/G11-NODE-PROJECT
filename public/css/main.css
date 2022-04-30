@@ -83,6 +83,14 @@ body {
     border-bottom: solid 1px rgb(199, 199, 199);
 }
 
+.border-bt-warning {
+    border-bottom: solid 1px red;
+}
+.place-warning::placeholder {
+    color: rgb(255, 103, 103);
+    opacity: 1;
+}
+
 .btn-create-contain {
     position: sticky;
     bottom: 15px;

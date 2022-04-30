@@ -34,7 +34,7 @@ function onCreateQuestion() {
         }
     }
     let score = formScore.value;
-    if (question && answers.A && answers.B && answers.C && answers.D && correct && score) {
+    if (question && answers.A && answers.B && answers.C && answers.D && correct.length > 0 && score) {
         axios.post("/questions/create", {question: question, answers: answers, correct: correct, score: score})
         .then((response) => {
             console.log("Question added");
@@ -47,8 +47,67 @@ function onCreateQuestion() {
         displayQuestions();
     } else {
         console.log("Adding failed");
+
+        dialogValidated();
+        questionDialog.addEventListener("change", dialogValidated);
     }
 
+}
+
+// ON DIALOG VALIDATE
+function dialogValidated() {
+    
+    if (formQuestion.value == "") {
+        formQuestion.placeholder = "Please enter the question";
+        formQuestion.className = "border-none no-outline border-bt-warning w-100 py-1 place-warning";
+    } else {
+        formQuestion.placeholder = "Question";
+        formQuestion.className = "border-none focus-orange no-outline title-input w-100 py-1";
+    }
+
+    if (answersA.value == "") {
+        answersA.placeholder = "Please enter answer A";
+        answersA.className = "border-none no-outline border-bt-warning place-warning w-100 ms-2 py-1";
+    } else {
+        answersA.placeholder = "Answer A";
+        answersA.className = "border-none focus-orange no-outline title-input w-100 ms-2 py-1";
+    }
+
+    if (answersB.value == "") {
+        answersB.placeholder = "Please enter answer B";
+        answersB.className = "border-none no-outline border-bt-warning place-warning w-100 ms-2 py-1";
+    } else {
+        answersB.placeholder = "Answer B";
+        answersB.className = "border-none focus-orange no-outline title-input w-100 ms-2 py-1";
+    }
+
+    if (answersC.value == "") {
+        answersC.placeholder = "Please enter answer C";
+        answersC.className = "border-none no-outline border-bt-warning place-warning w-100 ms-2 py-1";
+    } else {
+        answersC.placeholder = "Answer C";
+        answersC.className = "border-none focus-orange no-outline title-input w-100 ms-2 py-1";
+    }
+
+    if (answersD.value == "") {
+        answersD.placeholder = "Please enter answer D";
+        answersD.className = "border-none no-outline border-bt-warning place-warning w-100 ms-2 py-1";
+    } else {
+        answersD.placeholder = "Answer D";
+        answersD.className = "border-none focus-orange no-outline title-input w-100 ms-2 py-1";
+    }
+
+    let isHasAnser = false;
+    formCorrect.forEach(element => {
+        if (element.checked == true) {
+            isHasAnser = true;
+        }
+    })
+    if (!isHasAnser) {
+        correctAnserAlert.style.visibility = "visible";
+    } else {
+        correctAnserAlert.style.visibility = "hidden";
+    }
 }
 
 // REFRESH DIALOG
@@ -64,6 +123,24 @@ function refreshQuestionForm() {
         element.type = "radio";
     })
     activeManyAnswers.checked = false;
+    formCorrect[0].checked = true;
+
+    formQuestion.placeholder = "Question";
+    formQuestion.className = "border-none focus-orange no-outline title-input w-100 py-1";
+
+    answersA.placeholder = "Answer A";
+    answersA.className = "border-none focus-orange no-outline title-input w-100 ms-2 py-1";
+
+    answersB.placeholder = "Answer B";
+    answersB.className = "border-none focus-orange no-outline title-input w-100 ms-2 py-1";
+
+    answersC.placeholder = "Answer C";
+    answersC.className = "border-none focus-orange no-outline title-input w-100 ms-2 py-1";
+
+    answersD.placeholder = "Answer D";
+    answersD.className = "border-none focus-orange no-outline title-input w-100 ms-2 py-1";
+
+    correctAnserAlert.style.visibility = "hidden";
 }
 
 // TO REFRESH INPUT TYPE TEXT TO NULL
@@ -291,7 +368,7 @@ function onSaveUpdate(id) {
         }
     }
     let score = formScore.value;
-    if (question && answers.A && answers.B && answers.C && answers.D && correct && score) {
+    if (question && answers.A && answers.B && answers.C && answers.D && correct.length > 0 && score) {
         axios.put("/questions/update/"+id, {question: question, answers: answers, correct: correct, score: score}).then((response) => {
             console.log("Update success");
         }).then((error)=>{
@@ -304,6 +381,9 @@ function onSaveUpdate(id) {
         dialogBtnCreate.textContent = "Create";
     } else {
         console.log("Adding failed");
+
+        dialogValidated();
+        questionDialog.addEventListener("change", dialogValidated);
     }
 
 }
@@ -335,6 +415,7 @@ const answersD = document.querySelector("#choiceD");
 const formCorrect = document.querySelectorAll("input[name=correct-ans]");
 const formScore = document.querySelector("#score");
 const formQuestionID = document.querySelector("#formQuestId");
+const correctAnserAlert = document.querySelector(".correct-alert");
 
 // MAIN
 const questionDialog = document.querySelector("#quest-dialog-container");
