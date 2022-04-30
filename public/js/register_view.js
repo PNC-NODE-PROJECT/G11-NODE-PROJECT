@@ -11,7 +11,7 @@ function registerAccount() {
             .then((response) => {
                 let data = response.data[0];
                 if (data.email == email.value && data.password == password.value) {
-                    sessionStorage.setItem("userId", "123456");
+                    sessionStorage.setItem("userId", data._id);
                     location.href = "welcome_view.html";
                 }
             }).catch((error) => {
