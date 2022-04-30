@@ -2,8 +2,10 @@
 
 // LOG OUT : CLEAR SESSIONSTORAGE
 function logoutAccount() {
-    sessionStorage.clear();
-    location.href = "register_view.html";
+    if (confirm("Are you sure to sign out?")) {
+        sessionStorage.clear();
+        location.href = "register_view.html";
+    }
 }
 
 
