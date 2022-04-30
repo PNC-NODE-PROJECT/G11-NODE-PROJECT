@@ -28,6 +28,7 @@
                 <i class="material-icons text-primary bg-light px-1 border-right">person</i>
                 <input class="input-field no-outline px-2 border-none" type="text" id="register-username" class="" />
               </div>
+              <small id="invalid-username" class="text-danger"></small>
             </div>
 
             <div class="d-flex f-column align-start mt-3">
@@ -36,6 +37,7 @@
                 <i class="material-icons text-primary bg-light px-1 border-right">email</i>
                 <input class="input-field no-outline px-2 border-none" type="email" id="register-email" class="" />
               </div>
+              <small id="invalid-email" class="text-danger"></small>
             </div>
 
             <div class="d-flex f-column align-start mt-3">
@@ -44,7 +46,10 @@
                 <i class="material-icons text-primary bg-light px-1 border-right">lock</i>
                 <input class="input-field no-outline px-2 border-none" type="password" id="register-password" class="" />
               </div>
+              <small id="invalid-password" class="text-danger"></small>
             </div>
+
+            <p id="missed-input" class="text-danger text-center mt-3"></p>
 
             <div class="form-check d-flex justify-content-center mt-3">
               <small>Already have an account! <a id="into-login" href="login_view.html">Log in account</a></small>
