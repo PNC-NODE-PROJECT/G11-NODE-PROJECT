@@ -88,7 +88,7 @@ function displayQuestions() {
     }
 
     axios.get("/questions/all").then((response) => {
-        let questions = response.data;
+        let questions = response.data.reverse();
 
         // LOOP TO DISPLAY ALL QUESTIONS
         for (let item of questions) {
