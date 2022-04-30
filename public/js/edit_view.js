@@ -169,7 +169,8 @@ function displayQuestions() {
         questionList.removeChild(questionList.lastChild);
     }
 
-    axios.get("/questions/all").then((response) => {
+    let userId = sessionStorage.userId;
+    axios.post("/questions/owns", {creator: userId}).then((response) => {
         let questions = response.data.reverse();
 
         // LOOP TO DISPLAY ALL QUESTIONS
