@@ -1,9 +1,22 @@
-
+if (sessionStorage.userId) {
+    location.href = "welcome_view.html";
+}
 
 // REGISTER ACCOUNT
 function registerAccount() {
     if (userName && email && password) {
-        axios.post()
+        axios.post("/users/register", {username: userName.value, email: email.value, password: password.value})
+        .then((response) => {
+            axios.post("/users/user", {email: email.value, password: password.value})
+            .then((response) => {
+                sessionStorage.setItem("userId", "123456");
+                location.href = "welcome_view.html";
+            }).catch((error) => {
+                console.log(error);
+            })
+        }).catch((error) => {
+            console.log(error);
+        })
     }
 }
 

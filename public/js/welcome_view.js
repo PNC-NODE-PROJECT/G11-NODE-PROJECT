@@ -1,4 +1,3 @@
-let isRegister = false;
-if (!isRegister) {
-    location.href = "../views/register_view.html";
+if (!sessionStorage.userId) {
+    location.href = "views/register_view.html";
 }
