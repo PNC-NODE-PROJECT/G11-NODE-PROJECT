@@ -16,18 +16,21 @@ function loginAccount() {
             if (myData.email == email && myData.password == password) {
                 sessionStorage.setItem("userId", myData._id);
                 location.href = "welcome_view.html";
-            }
+            } else {
+                wrongLogin.textContent="Wrong email or password!";
+            };
     
         }).catch((error) => {
             console.log(error);
-        })
-    }
-}
+        });
+    };
+};
 
 
 
 const loginEmail = document.querySelector("#login-email");
 const loginPassword = document.querySelector("#login-password");
+const wrongLogin = document.querySelector(".alert-incorrect");
 
 // MAIN
 const btnLogin = document.querySelector("#btn-login");
