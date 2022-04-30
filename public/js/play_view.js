@@ -32,6 +32,7 @@ function startQuiz() {
     hide(computeScoreContainer);
     currentQuestNumb = 0;
     myScore = 0;
+    maxScore = 0;
     myAnswer = [];
     goodBadAnswers = [];
     mainWidthDurationBar = durationContainer.getBoundingClientRect().width;
@@ -49,12 +50,10 @@ function loadQuestionNumber() {
 
 // GET SELECTED ANSWER
 function getSelectedAnswer() {
-    let isSelected = false;
     let selectedAnswers = []
     domAnswers.forEach(element => {
         if (element.checked == true) {
             selectedAnswers.push(element.value);
-            isSelected = true;
         }
         element.checked = false;
     })
@@ -70,6 +69,7 @@ function calculateScore() {
         let index = 0;
         for (let item of questions) {
             let isCorrectAll = true;
+            maxScore += item.score;
             if (item.correct.length == myAnswer[index].length) {
                 for (let ans of item.correct) {
                     if (!myAnswer[index].includes(ans)) {
@@ -88,7 +88,7 @@ function calculateScore() {
             
             index ++;
         }
-        totalScore.textContent = myScore;
+        totalScore.textContent = myScore+"/"+maxScore;
     }).catch((error) => {
         console.log(error);
     })
@@ -349,6 +349,7 @@ function displayCorrection() {
 
 // VARIABLES
 let questionAmount = 0;
+let maxScore = 0;
 let myScore = 0;
 let myAnswer = [];
 let goodBadAnswers = [];
