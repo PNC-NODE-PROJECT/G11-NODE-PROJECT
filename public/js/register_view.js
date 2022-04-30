@@ -9,8 +9,11 @@ function registerAccount() {
         .then((response) => {
             axios.post("/users/user", {email: email.value, password: password.value})
             .then((response) => {
-                sessionStorage.setItem("userId", "123456");
-                location.href = "welcome_view.html";
+                let data = response.data[0];
+                if (data.email == email.value && data.password == password.value) {
+                    sessionStorage.setItem("userId", "123456");
+                    location.href = "welcome_view.html";
+                }
             }).catch((error) => {
                 console.log(error);
             })

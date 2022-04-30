@@ -1,4 +1,8 @@
 
+if (!sessionStorage.userId) {
+    location.href = "register_view.html";
+}
+
 import {hide, show} from "./hide_show.js";
 
 

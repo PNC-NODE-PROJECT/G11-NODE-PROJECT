@@ -1,3 +1,3 @@
 if (!sessionStorage.userId) {
-    location.href = "views/register_view.html";
+    location.href = "register_view.html";
 }
