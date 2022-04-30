@@ -19,3 +19,5 @@ let question = require('./routes/question');
 app.use('/questions',question);
 
 
+let user = require('./routes/user');
+app.use('/users',user)
