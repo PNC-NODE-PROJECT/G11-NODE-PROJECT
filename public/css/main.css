@@ -229,3 +229,50 @@ dialog {
     width: 100%;
     background-color: blue;
 }
+
+/* REGISTER */
+.align-start {
+    align-items: flex-start;
+}
+
+.width-65 {
+    width: 65%;
+}
+
+.vh-100 {
+    height: 100vh;
+}
+
+.height-100 {
+    height: 100%;
+}
+
+.input-field {
+    width: 400px;
+    padding: 3px 0 3px 0;
+}
+
+.input-field-container {
+    border: solid 1px black;
+}
+
+.border-right {
+    border-right: solid 1px black;
+}
+
+.font-title {
+    font-family: fantasy;
+}
+
+#btn-back-register {
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
+}
+#btn-back-register:hover {
+    background-color: rgb(233, 233, 233);
+}
+
+#btn-back-register i{
+    font-size: 30px;
+}

@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register account</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="shortcut icon" type="image/x-icon" href="images/logo.png" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    
+  <section class="w-100 vh-100" id="register-container">
+    <div class="w-100 height-100 d-flex justify-content-center align-center bg-brown">
+      <div class="d-flex justify-content-center width-65 f-column my-shadow m-auto bg-light rounded-3">
+        <h2 class="mt-4 font-title">REGISTER ACCOUNT</h2>
+
+        <div class="d-flex justify-content-center mt-4 mb-5">
+          <form class="">
+
+            <div class="d-flex f-column align-start">
+              <label class="mb-1" for="username">Your Username</label>
+              <div class="d-flex align-center input-field-container">
+                <i class="material-icons text-primary bg-light px-1 border-right">person</i>
+                <input class="input-field no-outline px-2 border-none" type="text" id="register-username" class="" />
+              </div>
+            </div>
+
+            <div class="d-flex f-column align-start mt-3">
+              <label class="mb-1" for="email">Your Email</label>
+              <div class="d-flex align-center input-field-container">
+                <i class="material-icons text-primary bg-light px-1 border-right">email</i>
+                <input class="input-field no-outline px-2 border-none" type="email" id="register-email" class="" />
+              </div>
+            </div>
+
+            <div class="d-flex f-column align-start mt-3">
+              <label class="mb-1" for="password">Your Password</label>
+              <div class="d-flex align-center input-field-container">
+                <i class="material-icons text-primary bg-light px-1 border-right">lock</i>
+                <input class="input-field no-outline px-2 border-none" type="password" id="register-password" class="" />
+              </div>
+            </div>
+
+            <div class="form-check d-flex justify-content-center mt-3">
+              <small>Already have an account! <a id="into-login" href="">Log in account</a></small>
+            </div>
+
+            <div class="d-flex justify-content-center mt-3">
+              <button id="btn-register" type="button" class= "px-5 py-1 border-none bg-blue text-light rounded-3">REGISTER</button>
+            </div>
+          </form>
+
+          <div class="ms-3">
+            <img src="../images/register_banner.png" class="img-fluid" alt="Sample image">
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+<script src="../js/register_view.js"></script>
+</html>
