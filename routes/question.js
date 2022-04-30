@@ -26,6 +26,18 @@ router.get("/all",(req, res)=>{
   })
 })
 
+// GET QUESTION BELONG TO USER
+router.post("/owns", (req, res) => {
+  let userId = req.body.creator;
+  QuestionModel.find({creator: userId})
+  .then((result) => {
+    res.send(result);
+  })
+  .catch((error) => {
+    res.send(error);
+  })
+})
+
 //DELET QUESTION 
 router.delete("/delete/:id",(req,res)=>{
   QuestionModel.deleteOne({_id:req.params.id})
