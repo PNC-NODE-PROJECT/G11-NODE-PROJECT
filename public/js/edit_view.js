@@ -38,8 +38,9 @@ function onCreateQuestion() {
         }
     }
     let score = formScore.value;
+    let creator = sessionStorage.userId;
     if (question && answers.A && answers.B && answers.C && answers.D && correct.length > 0 && score) {
-        axios.post("/questions/create", {question: question, answers: answers, correct: correct, score: score})
+        axios.post("/questions/create", {question: question, answers: answers, correct: correct, score: score, creator: creator})
         .then((response) => {
             console.log("Question added");
         }).catch((error) => {

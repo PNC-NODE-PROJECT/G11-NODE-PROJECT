@@ -33,6 +33,10 @@ const QuestionSchema= new mongoose.Schema({
     score: {
         type: Number,
         required: true
+    },
+    creator: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users"
     }
 });
 
