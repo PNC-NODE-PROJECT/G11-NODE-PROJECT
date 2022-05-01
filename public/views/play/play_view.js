@@ -1,9 +1,9 @@
 
 if (!sessionStorage.userId) {
-    location.href = "register_view.html";
+    location.href = "../register/register_view.html";
 }
 
-import {hide, show} from "./hide_show.js";
+import {hide, show} from "../../utils/hide_show.js";
 
 
 
@@ -318,6 +318,7 @@ function displayCorrection() {
             }
 
             // UPDATE USER'S ANSWER
+ 
             if (myAnswer[index].includes("A") && !goodBadAnswers[index] && !item.correct.includes("A")) {
                 ia.textContent = "close";
                 ia.style.color = "red";
@@ -338,6 +339,7 @@ function displayCorrection() {
                 id.style.color = "red";
                 pd.style.color = "red";
             }
+ 
 
             index ++;
         }

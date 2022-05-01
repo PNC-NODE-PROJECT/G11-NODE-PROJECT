@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 mongoose.connect(process.env.DATABASE_URL);
 
 // DEFIND SCHEAMA
-const QuestionSchema= new mongoose.Schema({
+const questionSchema= new mongoose.Schema({
     question: {
         type: String,
         required: true
@@ -42,7 +42,7 @@ const QuestionSchema= new mongoose.Schema({
 
 
 //CREATE THE MODEL FOR THE QUESTION COLLECTION FROM SCHEMA
-const QuestionModel = mongoose.model("questions",QuestionSchema);
+const QuestionModel = mongoose.model("questions", questionSchema);
 
 
 // IPORT MODULE

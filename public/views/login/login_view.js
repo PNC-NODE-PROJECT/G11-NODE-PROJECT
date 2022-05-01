@@ -1,6 +1,6 @@
 
 if (sessionStorage.userId) {
-    location.href = "welcome_view.html";
+    location.href = "../welcome/welcome_view.html";
 }
 
 
@@ -15,7 +15,7 @@ function loginAccount() {
             let myData = response.data[0];
             if (myData.email == email && myData.password == password) {
                 sessionStorage.setItem("userId", myData._id);
-                location.href = "welcome_view.html";
+                location.href = "../welcome/welcome_view.html";
             } else {
                 wrongLogin.textContent="Wrong email or password!";
             };

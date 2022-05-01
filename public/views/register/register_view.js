@@ -1,5 +1,5 @@
 if (sessionStorage.userId) {
-    location.href = "welcome_view.html";
+    location.href = "../welcome/welcome_view.html";
 }
 
 // REGISTER ACCOUNT
@@ -30,7 +30,7 @@ function registerAccount() {
                         let data = response.data[0];
                         if (data.email == email.value && data.password == password.value) {
                             sessionStorage.setItem("userId", data._id);
-                            location.href = "welcome_view.html";
+                            location.href = "../welcome/welcome_view.html";
                         }
                         }).catch((error) => {
                             console.log(error);

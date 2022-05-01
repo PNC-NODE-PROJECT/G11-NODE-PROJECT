@@ -1,9 +1,9 @@
 
 if (!sessionStorage.userId) {
-    location.href = "register_view.html";
+    location.href = "../register/register_view.html";
 }
 
-import {hide, show} from "./hide_show.js";
+import {hide, show} from "../../utils/hide_show.js";
 
 
 // BUTTON ADD QUESTION
@@ -217,81 +217,20 @@ function displayQuestions() {
             card.appendChild(cardFooter);
 
             //A
-            let answersA = document.createElement("div");
-            answersA.className = "d-flex";
-            cardFooter.appendChild(answersA);
-            let ia = document.createElement("i");
-            ia.className = "material-icons";
-            if (item.correct.includes("A")) {
-                ia.textContent = "done";
-                ia.style.color = "green";
-            }
-            answersA.appendChild(ia);
-            let pa = document.createElement("p");
-            pa.className = "ms-2";
-            pa.textContent = item.answers.A;
-            if (item.correct.includes("A")) {
-                pa.style.color = "green";
-            }
-            answersA.appendChild(pa);
+            let answerA = createAnswer("A",  item.answers.A, item.correct);
+            cardFooter.appendChild(answerA);
 
             //B
-            let answersB = document.createElement("div");
-            answersB.className = "d-flex";
-            cardFooter.appendChild(answersB);
-            let ib = document.createElement("i");
-            ib.className = "material-icons";
-            if (item.correct.includes("B")) {
-                ib.textContent = "done";
-                ib.style.color = "green";
-            }
-            answersB.appendChild(ib);
-            let pb = document.createElement("p");
-            pb.className = "ms-2";
-            pb.textContent = item.answers.B;
-            if (item.correct.includes("B")) {
-                pb.style.color = "green";
-            }
-            answersB.appendChild(pb);
+            let answerB = createAnswer("B",  item.answers.B, item.correct);
+            cardFooter.appendChild(answerB);
 
             //C
-            let answersC = document.createElement("div");
-            answersC.className = "d-flex";
-            cardFooter.appendChild(answersC);
-            let ic = document.createElement("i");
-            ic.className = "material-icons";
-            if (item.correct.includes("C")) {
-                ic.textContent = "done";
-                ic.style.color = "green";
-            }
-            answersC.appendChild(ic);
-            let pc = document.createElement("p");
-            pc.className = "ms-2";
-            pc.textContent = item.answers.C;
-            if (item.correct.includes("C")) {
-                pc.style.color = "green";
-            }
-            answersC.appendChild(pc);
+            let answerC = createAnswer("C",  item.answers.C, item.correct);
+            cardFooter.appendChild(answerC);
 
             // D
-            let answersD = document.createElement("div");
-            answersD.className = "d-flex";
-            cardFooter.appendChild(answersD);
-            let id = document.createElement("i");
-            id.className = "material-icons";
-            if (item.correct.includes("D")) {
-                id.textContent = "done";
-                id.style.color = "green";
-            }
-            answersD.appendChild(id);
-            let pd = document.createElement("p");
-            pd.className = "ms-2";
-            pd.textContent = item.answers.D;
-            if (item.correct.includes("D")) {
-                pd.style.color = "green";
-            }
-            answersD.appendChild(pd);
-
+            let answerD = createAnswer("D",  item.answers.D, item.correct);
+            cardFooter.appendChild(answerD);
         }
 
     }).catch((error) => {
@@ -299,6 +238,27 @@ function displayQuestions() {
     })
 }
 
+function createAnswer(answerLetter, answerText, correctAnswers) {
+    let answer = document.createElement("div");
+    answer.className = "d-flex";
+   
+    let id = document.createElement("i");
+    id.className = "material-icons";
+    if (correctAnswers.includes(answerLetter)) {
+        id.textContent = "done";
+        id.style.color = "green";
+    }
+    answer.appendChild(id);
+    let pd = document.createElement("p");
+    pd.className = "ms-2";
+    pd.textContent = answerText;
+    if (correctAnswers.includes(answerLetter)) {
+        pd.style.color = "green";
+    }
+    answer.appendChild(pd);
+
+    return answer;
+}
 
 // CHECK USER CLICK MENU ON QUESTION
 function onQuestionMenu(e) {
