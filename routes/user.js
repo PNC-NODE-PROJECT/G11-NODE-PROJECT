@@ -6,11 +6,27 @@ const  UserModel = require("../model/user_model");
 
 //ADD USER INTO DATABASE
 router.post("/register", (req,res)=>{
-    UserModel.create(req.body)
-    .then((result)=>{
-       res.send(result);
-    })
-    .catch((error)=>{
+    UserModel.find()
+    .then((myresult)=>{
+        let isNotUsed = true;
+        let registEmail = req.body.email;
+        myresult.forEach(user => {
+            if (user.email == registEmail) {
+                isNotUsed = false;
+            }
+        })
+        if (isNotUsed) {
+            UserModel.create(req.body)
+            .then((result)=>{
+                res.send(result);
+            })
+            .catch((error)=>{
+                res.send(error);
+            });
+        } else {
+            res.send("Email is already used");
+        }
+    }).catch((error)=>{
         res.send(error);
     });
 });
