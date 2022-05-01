@@ -26,17 +26,21 @@ function getAllQuestion(number) {
 
 // CHANGE QUESTION
 function startQuiz() {
-    show(quizContainer);
-    hide(navigation);
-    hide(quizFeatureContainer);
-    hide(computeScoreContainer);
-    currentQuestNumb = 0;
-    myScore = 0;
-    maxScore = 0;
-    myAnswer = [];
-    goodBadAnswers = [];
-    mainWidthDurationBar = durationContainer.getBoundingClientRect().width;
-    loadQuestionNumber();
+    if (questionAmount > 0) {
+        show(quizContainer);
+        hide(navigation);
+        hide(quizFeatureContainer);
+        hide(computeScoreContainer);
+        currentQuestNumb = 0;
+        myScore = 0;
+        maxScore = 0;
+        myAnswer = [];
+        goodBadAnswers = [];
+        mainWidthDurationBar = durationContainer.getBoundingClientRect().width;
+        loadQuestionNumber();
+    } else {
+        alert("You have no question yes! Please create some questions first");
+    }
 }
 
 // INCREASE QUESTION NUMBER
