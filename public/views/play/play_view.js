@@ -239,106 +239,46 @@ function displayCorrection() {
             cardFooter.className = "mt-3 ms-5";
             card.appendChild(cardFooter);
 
-            //A
-            let answersA = document.createElement("div");
-            answersA.className = "d-flex";
-            cardFooter.appendChild(answersA);
 
-            let ia = document.createElement("i");
-            ia.className = "material-icons";
-            answersA.appendChild(ia);
+            let answerA = createAnswer();
+            let ia = createIElement()
+            let pa = createPElement(item.answers.A);
+            answerA.appendChild(ia);
+            answerA.appendChild(pa);
+            cardFooter.append(answerA);
 
-            let pa = document.createElement("p");
-            pa.className = "ms-2";
-            pa.textContent = item.answers.A;
-            answersA.appendChild(pa);
+            let answerB = createAnswer();
+            let ib = createIElement()
+            let pb = createPElement(item.answers.B);
+            answerB.appendChild(ib);
+            answerB.appendChild(pb);
+            cardFooter.append(answerB);
 
-            //B
-            let answersB = document.createElement("div");
-            answersB.className = "d-flex";
-            cardFooter.appendChild(answersB);
+            let answerC = createAnswer();
+            let ic = createIElement()
+            let pc = createPElement(item.answers.C);
+            answerC.appendChild(ic);
+            answerC.appendChild(pc);
+            cardFooter.append(answerC);
 
-            let ib = document.createElement("i");
-            ib.className = "material-icons";
-            answersB.appendChild(ib);
-
-            let pb = document.createElement("p");
-            pb.className = "ms-2";
-            pb.textContent = item.answers.B;
-            answersB.appendChild(pb);
-
-            //C
-            let answersC = document.createElement("div");
-            answersC.className = "d-flex";
-            cardFooter.appendChild(answersC);
-
-            let ic = document.createElement("i");
-            ic.className = "material-icons";
-            answersC.appendChild(ic);
-
-            let pc = document.createElement("p");
-            pc.className = "ms-2";
-            pc.textContent = item.answers.C;
-            answersC.appendChild(pc);
-
-            // D
-            let answersD = document.createElement("div");
-            answersD.className = "d-flex";
-            cardFooter.appendChild(answersD);
-
-            let id = document.createElement("i");
-            id.className = "material-icons";
-            answersD.appendChild(id);
-
-            let pd = document.createElement("p");
-            pd.className = "ms-2";
-            pd.textContent = item.answers.D;
-            answersD.appendChild(pd);
+            let answerD = createAnswer();
+            let id = createIElement()
+            let pd = createPElement(item.answers.D);
+            answerD.appendChild(id);
+            answerD.appendChild(pd);
+            cardFooter.append(answerD);
 
             // UPDATE ANSWERS THAT ARE CORRECT
-            if (item.correct.includes("A")) {
-                ia.textContent = "done";
-                ia.style.color = "green";
-                pa.style.color = "green";
-            }
-            if (item.correct.includes("B")) {
-                ib.textContent = "done";
-                ib.style.color = "green";
-                pb.style.color = "green";
-            }
-            if (item.correct.includes("C")) {
-                ic.textContent = "done";
-                ic.style.color = "green";
-                pc.style.color = "green";
-            }
-            if (item.correct.includes("D")) {
-                id.textContent = "done";
-                id.style.color = "green";
-                pd.style.color = "green";
-            }
+            paintCorrectAnswers(item.correct, "A", ia, pa);
+            paintCorrectAnswers(item.correct, "B", ib, pb);
+            paintCorrectAnswers(item.correct, "C", ic, pc);
+            paintCorrectAnswers(item.correct, "D", id, pd);
 
-            // UPDATE USER'S ANSWER
- 
-            if (myAnswer[index].includes("A") && !goodBadAnswers[index] && !item.correct.includes("A")) {
-                ia.textContent = "close";
-                ia.style.color = "red";
-                pa.style.color = "red";
-            }
-            if (myAnswer[index].includes("B") && !goodBadAnswers[index] && !item.correct.includes("B")) {
-                ib.textContent = "close";
-                ib.style.color = "red";
-                pb.style.color = "red";
-            }
-            if (myAnswer[index].includes("C") && !goodBadAnswers[index] && !item.correct.includes("C")) {
-                ic.textContent = "close";
-                ic.style.color = "red";
-                pc.style.color = "red";
-            }
-            if (myAnswer[index].includes("D") && !goodBadAnswers[index] && !item.correct.includes("D")) {
-                id.textContent = "close";
-                id.style.color = "red";
-                pd.style.color = "red";
-            }
+            // // UPDATE USER'S ANSWER
+            paintUserAnswers(myAnswer[index], goodBadAnswers[index], item.correct, "A", ia, pa);
+            paintUserAnswers(myAnswer[index], goodBadAnswers[index], item.correct, "B", ib, pb);
+            paintUserAnswers(myAnswer[index], goodBadAnswers[index], item.correct, "C", ic, pc);
+            paintUserAnswers(myAnswer[index], goodBadAnswers[index], item.correct, "D", id, pd);
  
 
             index ++;
@@ -348,6 +288,49 @@ function displayCorrection() {
     }).catch((error) => {
         console.log(error);
     })
+}
+
+// CREATE ANSWERS ELEMENTS
+function createAnswer() {
+    let answer = document.createElement("div");
+    answer.className = "d-flex";
+
+    return answer;
+}
+
+// CREATE I ELEMENT FOR ICON
+function createIElement() {
+    let i = document.createElement("i");
+    i.className = "material-icons";
+
+    return i;
+}
+
+// CREATE P ELEMENT FOR ANSWER TEXT
+function createPElement(answerText) {
+    let p = document.createElement("p");
+    p.className = "ms-2";
+    p.textContent = answerText;
+
+    return p;
+}
+
+// UPDATE ANSWERS THAT ARE CORRECT
+function paintCorrectAnswers(correctAnswers, answerLetter, i, p) {
+    if (correctAnswers.includes(answerLetter)) {
+        i.textContent = "done";
+        i.style.color = "green";
+        p.style.color = "green";
+    }
+}
+
+// UPDATE USER'S ANSWER
+function paintUserAnswers(userAnswer, goodOrBad, correctAnswer, answerLetter, i, p) {
+    if (userAnswer.includes(answerLetter) && !goodOrBad && !correctAnswer.includes(answerLetter)) {
+        i.textContent = "close";
+        i.style.color = "red";
+        p.style.color = "red";
+    }
 }
 
 
