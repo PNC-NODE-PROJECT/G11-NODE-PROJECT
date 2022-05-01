@@ -23,7 +23,9 @@ function loginAccount() {
         }).catch((error) => {
             console.log(error);
         });
-    };
+    } else{
+        wrongLogin.textContent="Please enter both email and password!";
+    }
 };
 
 
