@@ -17,18 +17,27 @@ function registerAccount() {
         }
 
         if (isAllValidated) {
+            invalidUsername.textContent = null;
+            invalidEmail.textContent = null;
+            invalidPassword.textContent = null;
+
             axios.post("/users/register", {username: userName.value, email: email.value, password: password.value})
             .then((response) => {
-                axios.post("/users/user", {email: email.value, password: password.value})
-                .then((response) => {
-                    let data = response.data[0];
-                    if (data.email == email.value && data.password == password.value) {
-                        sessionStorage.setItem("userId", data._id);
-                        location.href = "welcome_view.html";
-                    }
-                }).catch((error) => {
-                    console.log(error);
-                })
+                let result = response.data;
+                if (result != "Email is already used") {
+                    axios.post("/users/user", {email: email.value, password: password.value})
+                    .then((response) => {
+                        let data = response.data[0];
+                        if (data.email == email.value && data.password == password.value) {
+                            sessionStorage.setItem("userId", data._id);
+                            location.href = "welcome_view.html";
+                        }
+                        }).catch((error) => {
+                            console.log(error);
+                        })
+                } else {
+                    missedInput.textContent = "This email is already used! Please enter an available email"
+                }
             }).catch((error) => {
                 console.log(error);
             })
