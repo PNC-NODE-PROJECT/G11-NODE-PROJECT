@@ -367,7 +367,7 @@ function onManyAnswers() {
 function onCreateQuiz() {
     let thisQuizTitle = quizTitle.value;
     let userId = sessionStorage.userId;
-    if (confirm("Create new quiz?")) {
+    if (confirm("Save quiz?")){
         if (thisQuizTitle) {
             titleAlert.textContent = null;
             if (questions.length > 0) {
