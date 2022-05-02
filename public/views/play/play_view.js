@@ -177,15 +177,6 @@ function onClickAnswer(e) {
     }
 }
 
-// REFRESH QUESTIONS AMOUNT
-// function amoutQuest() {
-//     axios.post("/questions/owns", {creator: userId}).then((response) => {
-//         featureQuestAmount.textContent = response.data.length + " Questions";
-//         questionAmount = response.data.length;
-//     }).catch((error) => {
-//         console.log(error);
-//     })
-// }
 
 // DISPLAY GOOD AND BAD ANSWER
 function displayCorrection() {
