@@ -43,7 +43,8 @@ const quizzesSchema= new mongoose.Schema({
                 type: Number,
                 required: true
             },
-        }]
+        }],
+        required: true
     }
 });
 
