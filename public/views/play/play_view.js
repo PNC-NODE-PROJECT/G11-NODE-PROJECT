@@ -347,35 +347,41 @@ function displayQuizzesFeature(){
     axios.post("/quizzes/owns", {owner: owner}).then((response) => {
 
         let quizzes = response.data.reverse();
-        quizzes.forEach(quiz => {
-            let card = document.createElement("div");
-            card.className = "m-auto f-column d-flex justify-content-end quiz-feature rounded-3";
-            card.id = quiz._id;
-            quizFeatures.appendChild(card);
 
-            let cardImage = document.createElement("img");
-            cardImage.width = "200";
-            cardImage.src = "../../images/feature_1.png";
-            card.appendChild(cardImage);
-
-            let cardTitle = document.createElement("h4");
-            cardTitle.className = "mt-3";
-            cardTitle.textContent = quiz.title;
-            card.appendChild(cardTitle);
-
-            let cardQuestions = document.createElement("h5");
-            cardQuestions.className = "mb-3 mt-1 amout-quest";
-            cardQuestions.id = quiz.questions.length;
-            cardQuestions.textContent = quiz.questions.length + " Questions";
-            card.appendChild(cardQuestions);
-
-            let cardButton = document.createElement("button");
-            cardButton.className = "bg-orange px-5 py-2 decoration border-none text-light welcome-btn mt-5 mb-5";
-            cardButton.id = "btn-start-quiz";
-            cardButton.textContent = "PLAY NOW";
-            card.appendChild(cardButton);
-
-        })
+        if (quizzes.length > 0) {
+            noQuizAlert.textContent = null;
+            quizzes.forEach(quiz => {
+                let card = document.createElement("div");
+                card.className = "m-auto f-column d-flex justify-content-end quiz-feature rounded-3";
+                card.id = quiz._id;
+                quizFeatures.appendChild(card);
+    
+                let cardImage = document.createElement("img");
+                cardImage.width = "200";
+                cardImage.src = "../../images/feature_1.png";
+                card.appendChild(cardImage);
+    
+                let cardTitle = document.createElement("h4");
+                cardTitle.className = "mt-3";
+                cardTitle.textContent = quiz.title;
+                card.appendChild(cardTitle);
+    
+                let cardQuestions = document.createElement("h5");
+                cardQuestions.className = "mb-3 mt-1 amout-quest";
+                cardQuestions.id = quiz.questions.length;
+                cardQuestions.textContent = quiz.questions.length + " Questions";
+                card.appendChild(cardQuestions);
+    
+                let cardButton = document.createElement("button");
+                cardButton.className = "bg-orange px-5 py-2 decoration border-none text-light welcome-btn mt-5 mb-5";
+                cardButton.id = "btn-start-quiz";
+                cardButton.textContent = "PLAY NOW";
+                card.appendChild(cardButton);
+    
+            })
+        } else {
+            noQuizAlert.textContent = "No quiz for now!";
+        }
 
     }).catch((error) => {
         console.log(error);
@@ -438,6 +444,7 @@ const totalScore = document.querySelector("#total-score");
 const corretionList = document.querySelector("#correction-list");
 const btnPlayAgain = document.getElementById("btn-play-again");
 const quizFeatures = document.querySelector("#quiz-features");
+const noQuizAlert = document.querySelector("#no-quiz-alert");
 
 
 answersBox.addEventListener("click", onClickAnswer);

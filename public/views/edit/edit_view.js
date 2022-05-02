@@ -377,42 +377,47 @@ function displayQuizzes() {
     axios.post("/quizzes/owns", {owner: userId}).then((response) => {
         let quizzes = response.data.reverse();
 
-        quizzes.forEach(quiz => {
-            let card = document.createElement("div");
-            card.className = "my-shadow mt-5 w-75 m-auto my-border-top bg-light rounded-3";
-            card.id = quiz._id;
-            quizList.appendChild(card);
-
-            let cardBody = document.createElement("div");
-            cardBody.className = "d-flex justify-content-between align-center";
-            card.appendChild(cardBody);
-
-            let quizTitle = document.createElement("h3");
-            quizTitle.className = "ms-4 mt-1";
-            quizTitle.textContent = quiz.title;
-            cardBody.appendChild(quizTitle);
-
-            let quizMenu = document.createElement("div");
-            cardBody.appendChild(quizMenu);
-
-            let menuEdit = document.createElement("i");
-            menuEdit.className = "material-icons me-3 c-pointer hover-color-orange icon-bigger";
-            menuEdit.textContent = "edit";
-            menuEdit.id = "quiz-edit";
-            quizMenu.appendChild(menuEdit);
-
-            let menuDelete = document.createElement("i");
-            menuDelete.className = "material-icons me-3 c-pointer hover-color-orange icon-bigger";
-            menuDelete.id = "quiz-delete";
-            menuDelete.textContent = "delete";
-            quizMenu.appendChild(menuDelete);
-
-            let amoutQuestion = document.createElement("h6");
-            amoutQuestion.className = "text-primary ms-4 py-2";
-            amoutQuestion.textContent = quiz.questions.length + " Questions";
-            card.appendChild(amoutQuestion);
-
-        })
+        if (quizzes.length > 0) {
+            noQuizAlert.textContent = null;
+            quizzes.forEach(quiz => {
+                let card = document.createElement("div");
+                card.className = "my-shadow mt-5 w-75 m-auto my-border-top bg-light rounded-3";
+                card.id = quiz._id;
+                quizList.appendChild(card);
+    
+                let cardBody = document.createElement("div");
+                cardBody.className = "d-flex justify-content-between align-center";
+                card.appendChild(cardBody);
+    
+                let quizTitle = document.createElement("h3");
+                quizTitle.className = "ms-4 mt-1";
+                quizTitle.textContent = quiz.title;
+                cardBody.appendChild(quizTitle);
+    
+                let quizMenu = document.createElement("div");
+                cardBody.appendChild(quizMenu);
+    
+                let menuEdit = document.createElement("i");
+                menuEdit.className = "material-icons me-3 c-pointer hover-color-orange icon-bigger";
+                menuEdit.textContent = "edit";
+                menuEdit.id = "quiz-edit";
+                quizMenu.appendChild(menuEdit);
+    
+                let menuDelete = document.createElement("i");
+                menuDelete.className = "material-icons me-3 c-pointer hover-color-orange icon-bigger";
+                menuDelete.id = "quiz-delete";
+                menuDelete.textContent = "delete";
+                quizMenu.appendChild(menuDelete);
+    
+                let amoutQuestion = document.createElement("h6");
+                amoutQuestion.className = "text-primary ms-4 py-2";
+                amoutQuestion.textContent = quiz.questions.length + " Questions";
+                card.appendChild(amoutQuestion);
+    
+            })
+        } else {
+            noQuizAlert.textContent = "No quiz for now!";
+        }
 
     }).catch((error) => {
         console.log(error);
@@ -564,6 +569,7 @@ const allQuestionsContainer = document.querySelector("#all-questions-container")
 const editMenuContainer = document.querySelector("#edit-menu-container")
 const storeQuizId = document.querySelector("#store-quiz-id");
 const navigationBar = document.querySelector("#navigation-bar");
+const noQuizAlert = document.querySelector("#no-quiz-alert");
 
 const myQuizTitle = document.querySelector("#my-quiz-title");
 // UPDATE TITLE
