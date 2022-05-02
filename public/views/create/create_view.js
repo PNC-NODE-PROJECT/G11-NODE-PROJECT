@@ -39,10 +39,10 @@ function onCreateQuestion() {
     }
     let score = formScore.value;
     if (question && answers.A && answers.B && answers.C && answers.D && correct.length > 0 && score) {
-        quizQuestions[0].questions.push({question: question, answers: answers, correct: correct, score: score});
-        saveData(quizQuestions);
+        questions.push({question: question, answers: answers, correct: correct, score: score});
+        saveData(questions);
         loadData();
-        
+
         hide(questionDialog);
         show(btnCreateQuestion);
         refreshQuestionForm();
@@ -160,10 +160,7 @@ function makeInputToChecked(ele) {
 
 
 // DISPLAY THE LIST OF QUESTION
-function displayQuestions(quizId) {
-
-    loadData();
-    
+function displayQuestions() {
     // REMOVE PREVIOUS ELEMENTS
     while (questionList.lastChild) {
         questionList.removeChild(questionList.lastChild);
@@ -171,8 +168,7 @@ function displayQuestions(quizId) {
 
     let index = 0;
     // LOOP TO DISPLAY ALL QUESTIONS
-    let allQuestions = quizQuestions[0].questions.reverse();
-    for (let item of allQuestions) {
+    for (let item of questions.reverse()) {
         let card = document.createElement("div");
         card.className = "question-show question-card my-shadow small-border-top mb-4";
         card.id = index;
@@ -230,6 +226,7 @@ function displayQuestions(quizId) {
         let answerD = createAnswer("D",  item.answers.D, item.correct);
         cardFooter.appendChild(answerD);
 
+
         index ++;
     }
 
@@ -271,8 +268,8 @@ function onQuestionMenu(e) {
 
 // DELETE A QUESTION
 function onDeleteQuestion(id) {
-    quizQuestions[0].questions.splice(id, 1);
-    saveData(quizQuestions);
+    questions.splice(id, 1);
+    saveData(questions);
     loadData();
     console.log("Question deleted");
     displayQuestions();
@@ -286,7 +283,7 @@ function onPreEditQuestion(id) {
     dialogBtnCreate.textContent = "Save";
     formQuestionID.value = id;
 
-    let question = quizQuestions[0].questions[id];
+    let question = questions[id];
 
     formQuestion.value = question.question;
     answersA.value = question.answers.A;
@@ -328,27 +325,25 @@ function onSaveUpdate(id) {
         }
     }
     let score = formScore.value;
-    let quizId = storeQuizId.value;
     if (question && answers.A && answers.B && answers.C && answers.D && correct.length > 0 && score) {
 
-        let newUpdate = {question: question, answers: answers, correct: correct, score: score, quiz_id: quizId};
-        quizQuestions[0].questions.splice(id, 1, newUpdate);
-        saveData(quizQuestions);
+        let newQuest = {question: question, answers: answers, correct: correct, score: score}
+        questions.splice(id, 1, newQuest);
+        saveData(questions);
         loadData();
         console.log("Update successfully");
-        
+
         hide(questionDialog);
         show(btnCreateQuestion);
         refreshQuestionForm();
+        displayQuestions();
         dialogBtnCreate.textContent = "Create";
-        displayQuestions(quizId);
     } else {
         console.log("Update failed");
 
         dialogValidated();
         questionDialog.addEventListener("change", dialogValidated);
     }
-
 }
 
 // ACTIVE MANY ANSWERS
@@ -367,177 +362,89 @@ function onManyAnswers() {
 }
 
 
-// DISPLAY LIST OF QUIZ
-function displayQuizzes() {
-    while (quizList.lastChild) {
-        quizList.removeChild(quizList.lastChild);
-    }
 
+// CREATE QUIZ
+function onCreateQuiz() {
+    let thisQuizTitle = quizTitle.value;
     let userId = sessionStorage.userId;
-    axios.post("/quizzes/owns", {owner: userId}).then((response) => {
-        let quizzes = response.data.reverse();
+    if (confirm("Create new quiz?")) {
+        if (thisQuizTitle) {
+            titleAlert.textContent = null;
+            if (questions.length > 0) {
 
-        quizzes.forEach(quiz => {
-            let card = document.createElement("div");
-            card.className = "my-shadow mt-5 w-75 m-auto my-border-top bg-light rounded-3";
-            card.id = quiz._id;
-            quizList.appendChild(card);
+                axios.post("/quizzes/create", {title: thisQuizTitle, owner: userId, questions: questions}).then((response) => {
+                    console.log("Quiz added");
+                    questions = [];
+                    saveData(questions);
+                    quizTitle.value = null;
+                    show(banner);
+                    show(navigationBar);
+                    hide(quizTitleBlock);
+                    hide(createMenuContainer);
+                    hide(allQuestionsContainer);
+                    alert("Create quiz successfully!");
+                }).catch((error) => {
+                    console.log(error);
+                })
 
-            let cardBody = document.createElement("div");
-            cardBody.className = "d-flex justify-content-between align-center";
-            card.appendChild(cardBody);
-
-            let quizTitle = document.createElement("h3");
-            quizTitle.className = "ms-4 mt-1";
-            quizTitle.textContent = quiz.title;
-            cardBody.appendChild(quizTitle);
-
-            let quizMenu = document.createElement("div");
-            cardBody.appendChild(quizMenu);
-
-            let menuEdit = document.createElement("i");
-            menuEdit.className = "material-icons me-3 c-pointer hover-color-orange icon-bigger";
-            menuEdit.textContent = "edit";
-            menuEdit.id = "quiz-edit";
-            quizMenu.appendChild(menuEdit);
-
-            let menuDelete = document.createElement("i");
-            menuDelete.className = "material-icons me-3 c-pointer hover-color-orange icon-bigger";
-            menuDelete.id = "quiz-delete";
-            menuDelete.textContent = "delete";
-            quizMenu.appendChild(menuDelete);
-
-            let amoutQuestion = document.createElement("h6");
-            amoutQuestion.className = "text-primary ms-4 py-2";
-            amoutQuestion.textContent = quiz.questions.length + " Questions";
-            card.appendChild(amoutQuestion);
-
-        })
-
-    }).catch((error) => {
-        console.log(error);
-    })
-}
-
-// CHECK WHEN CLICK ON QUIZ-LIST-CONTAINER
-function onQuizListClick(e) {
-    let myTarget = e.target.id;
-    let quizId = e.target.parentNode.parentNode.parentNode.id;
-    if (myTarget == "quiz-edit") {
-        axios.get("/quizzes/quiz/"+quizId).then((response) => {
-            quizQuestions = response.data;
-            saveData(quizQuestions);
-        })
-        storeQuizId.value = quizId;
-        axios.get("/quizzes/quiz/"+quizId).then((response) => {
-            let quiz = response.data[0];
-            myQuizTitle.value = quiz.title;
-        }).catch((error) => {
-            console.log(error);
-        })
-        saveData(quizQuestions);
-        loadData();
-        setTimeout(onEditQuiz, 500);
-        
-    } else if (myTarget == "quiz-delete") {
-        if (confirm("Are you sure to delete this quiz?")) {
-            onDeleteQuiz(quizId);
-        }
-    }
-}
-
-// DELETE A QUIZ
-function onDeleteQuiz(quizId) {
-    axios.delete("/quizzes/clear/"+quizId).then((response) => {
-        console.log("Quiz deleted");
-        displayQuizzes();
-    }).catch((error) => {
-        console.log(error);
-    })
-}
-
-// EDIT QUIZ
-function onEditQuiz() {
-    hide(quizListContainer);
-    hide(navigationBar);
-    show(quizTitleBlock);
-    show(allQuestionsContainer);
-    show(editMenuContainer);
-    quizQuestions = [];
-    
-    displayQuestions(storeQuizId.value);
-}
-
-// SAVE OR CANCEL
-function onEditMenuContainerClick(e) {
-    let myTarget = e.target.id;
-    let quizId = storeQuizId.value;
-    if (myTarget == "cancel") {
-        if (confirm("Cancel edit??")) {
-            onCancelEdit();
-        }
-    } else if (myTarget == "save") {
-        console.log("save");
-        if (myQuizTitle) {
-            if (quizQuestions.length > 0) {
-                onUpdateQuiz(quizId);
             } else {
-                alert("You have no any questions! Pleas add some questions")
+                alert("You have no any questions! Please create some questions")
             }
+    
         } else {
-            alert("Please enter title of quiz");
+            titleAlert.textContent = "Please enter title";
+            quizTitle.addEventListener("change", () => {
+                if (quizTitle.value) {
+                    titleAlert.textContent = null;
+                } else {
+                    titleAlert.textContent = "Please enter title";
+                }
+            })
         }
     }
 }
 
-// CANCEL EDIT
-function onCancelEdit() {
-    hide(quizTitleBlock);
-    hide(allQuestionsContainer);
-    hide(editMenuContainer);
-    show(navigationBar);
-    storeQuizId.value = null;
-    show(quizListContainer);
-    displayQuizzes();
-}
-
-// SAVE EDIT
-function onUpdateQuiz(quizId) {
-    axios.put("/quizzes/update/"+quizId, quizQuestions[0]).then((response => {
-        console.log("Quiz updated");
-    })).catch((error) => {
-        console.log(error);
-    })
-
-    quizQuestions = [];
-    saveData(quizQuestions);
-
-    onCancelEdit();
-}
 
 // LOAD DATA
 function loadData() {
-    if (localStorage.getItem("quizQuestions") == null) {
-        saveData(quizQuestions);
+    if (localStorage.getItem("questions") == null) {
+        saveData(questions);
     } else {
-        quizQuestions = JSON.parse(localStorage.getItem("quizQuestions"));
+        questions = JSON.parse(localStorage.getItem("questions"));
     }
 }
 
 // SAVE DATA
 function saveData(questions) {
-    localStorage.setItem("quizQuestions", JSON.stringify(quizQuestions));
+    localStorage.setItem("questions", JSON.stringify(questions));
+}
+
+
+// CANCEL CREATE QUIZ 
+function onCalcelCreate() {
+    if (confirm("Cancel create quiz and leave?")) {
+        questions = [];
+        saveData(questions);
+        show(banner);
+        show(navigationBar);
+        hide(quizTitleBlock);
+        hide(createMenuContainer);
+        hide(allQuestionsContainer);
+    }
+}
+
+// START CREATE NEW QUIZ 
+function startCreateNewQuiz() {
+    hide(banner);
+    hide(navigationBar);
+    show(quizTitleBlock);
+    show(createMenuContainer);
+    show(allQuestionsContainer);
 }
 
 
 
-
-
-
-
-
-
-let quizQuestions = [];
+let questions = [];
 
 // FORM ELEMENTS
 const formQuestion = document.querySelector("#title");
@@ -557,30 +464,30 @@ const dialogMenu = document.querySelector(".dialog-menu");
 const questionList = document.querySelector("#question-list");
 const dialogBtnCreate = document.querySelector("#create");
 const activeManyAnswers = document.querySelector("#many-answers");
-const quizListContainer = document.querySelector("#quizzes-container");
-const quizList = document.querySelector("#quiz-list");
-const quizTitleBlock = document.querySelector("#quiz-title-block");
-const allQuestionsContainer = document.querySelector("#all-questions-container");
-const editMenuContainer = document.querySelector("#edit-menu-container")
-const storeQuizId = document.querySelector("#store-quiz-id");
-const navigationBar = document.querySelector("#navigation-bar");
 
-const myQuizTitle = document.querySelector("#my-quiz-title");
-// UPDATE TITLE
-myQuizTitle.addEventListener("change", () => { 
-    quizQuestions[0].title = myQuizTitle.value; 
-    saveData(quizQuestions);
-});
+const titleAlert = document.querySelector("#title-alert");
+const quizTitle = document.querySelector("#quiz-title-input");
+
+const btnCreateQuiz = document.querySelector("#btn-create-quiz");
+const btnCancelCreateQuiz = document.querySelector("#btn-cancel-create");
+
+const btnStartCreateQuiz = document.querySelector("#btn-start-create-quiz");
+const navigationBar = document.querySelector("#navigation-bar");
+const banner = document.querySelector("#create-quiz-banner-container")
+const createMenuContainer = document.querySelector("#create-menu-container");
+const quizTitleBlock = document.querySelector("#quiz-title-block");
+const allQuestionsContainer = document.querySelector(".all-quest-container");
 
 
 btnCreateQuestion.addEventListener("click", onAddquestion);
 dialogMenu.addEventListener("click", onClickDialog);
 questionList.addEventListener("click", onQuestionMenu);
 activeManyAnswers.addEventListener("change", onManyAnswers);
-quizListContainer.addEventListener("click", onQuizListClick);
-editMenuContainer.addEventListener("click", onEditMenuContainerClick);
+btnCreateQuiz.addEventListener("click", onCreateQuiz);
+btnCancelCreateQuiz.addEventListener("click", onCalcelCreate);
+btnStartCreateQuiz.addEventListener("click", startCreateNewQuiz);
 
 
 
-
-displayQuizzes();
+loadData();
+displayQuestions();

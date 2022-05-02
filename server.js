@@ -15,9 +15,10 @@ app.listen(PORT, () => {
 app.use(express.static("public"));
 
 // REQUEST TARGETS
-let question = require('./routes/question');
-app.use('/questions',question);
-
 
 let user = require('./routes/user');
-app.use('/users',user)
+app.use('/users',user);
+
+
+let quizzes = require('./routes/quizzes');
+app.use('/quizzes',quizzes)

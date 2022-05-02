@@ -4,7 +4,7 @@
 function logoutAccount() {
     if (confirm("Are you sure to sign out?")) {
         sessionStorage.clear();
-        location.href = "register_view.html";
+        location.href = "../register/register_view.html";
     }
 }
 

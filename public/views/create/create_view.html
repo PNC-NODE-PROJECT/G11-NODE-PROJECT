@@ -8,37 +8,40 @@
     <link rel="shortcut icon" type="image/x-icon" href="../../images/logo.png" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  </head>
-  <body>
+</head>
+<body>
     <div id="navigation-bar">
         <nav class="navigation bg-brown d-flex justify-content-between">
             <ul class="d-flex type-style decoration mb-0 py-2">
-              <a href="../welcome/welcome_view.html"><img height="50" src="../../images/logo.png" /></a>
-              <h2 class="ms-2"><a class="decoration text-light" href="../welcome/welcome_view.html">Quiz App</a></h2>
+            <a href="../welcome/welcome_view.html"><img height="50" src="../../images/logo.png" /></a>
+            <h2 class="ms-2"><a class="decoration text-light" href="../welcome/welcome_view.html">Quiz App</a></h2>
             </ul>
             <ul class="d-flex type-style mb-0 align-center">
-                <li class="me-2"><a class="decoration text-light px-4 py-2 menu border rounded-3" href="../create/create_view.html">Create quiz</a></li>
-              <li class="me-2"><a class="decoration text-dark px-4 py-2 menu border rounded-3 bg-light" href="edit_view.html">Edit quiz</a></li>
-              <li class="me-2"><a class="decoration text-light px-4 py-2 menu border rounded-3" href="../play/play_view.html">Play quiz</a></li>
-              <li id="btn-logout" class="me-2"><a class="decoration text-light px-3 menu" href=""><img src="../../images/sign_out.png" height="40" alt=""></a></li>
+                <li class="me-2"><a class="decoration text-dark px-4 py-2 menu border rounded-3 bg-light" href="create_view.html">Create quiz</a></li>
+            <li class="me-2"><a class="decoration text-light px-4 py-2 menu border rounded-3" href="../edit/edit_view.html">Edit quiz</a></li>
+            <li class="me-2"><a class="decoration text-light px-4 py-2 menu border rounded-3" href="../play/play_view.html">Play quiz</a></li>
+            <li id="btn-logout" class="me-2"><a class="decoration text-light px-3 menu" href=""><img src="../../images/sign_out.png" height="40" alt=""></a></li>
             </ul>
         </nav>
     </div>
 
 
-    <div class="" id="quizzes-container">
-        <div id="quiz-list">
-            
+    <div id="create-quiz-banner-container">
+        <div class="w-100 create-quiz-contain d-flex align-center justify-content-center">
+            <div class="create-quiz-banner d-flex justify-content-center align-center">
+                <button id="btn-start-create-quiz" class="btn-start-create-quiz">CREATE A NEW QUIZ</button>
+            </div>
         </div>
     </div>
 
-    <div id="edit-menu-container" style="display: none;">
-        <input type="hidden" id="store-quiz-id" value="">
+
+    <div id="create-menu-container" style="display: none;">
         <div class="btn-create-quiz py-2 rounded-3 d-flex align-center justify-content-between me-4 ms-4">
-            <button class="text-light d-flex border-none my-shadow no-outline bg-orange py-2 px-5 rounded-3" id="cancel">Cancel</button>
-            <button class="text-light d-flex border-none my-shadow no-outline bg-green py-2 px-5 rounded-3" id="save">Save</button>
+            <button class="text-light d-flex border-none my-shadow no-outline bg-orange py-2 px-5 rounded-3" id="btn-cancel-create">Back</button>
+            <button class="text-light d-flex border-none my-shadow no-outline bg-green py-2 px-5 rounded-3" id="btn-create-quiz">Create</button>
         </div>
     </div>
+    
 
     <div style="display: none;" id="quest-dialog-container">
         <div class="d-flex" id="questions-dialog">
@@ -91,17 +94,17 @@
         </div>
     </div>
 
-
-    <div id="quiz-title-block" class="my-shadow mt-5 w-75 m-auto my-border-top" style="display: none;">
+    <div id="quiz-title-block" class="my-shadow mt-5 w-75 m-auto my-border-top bg-light" style="display: none;">
         <div>
             <h3 class="ms-4 mt-1">Quiz title</h3>
         </div>
-        <div>
-            <input id="my-quiz-title" class="border-none focus-orange no-outline w-75 ms-4 mt-2 mb-4 title-input" type="text" placeholder="Title your quiz here" value=""/>
+        <div class="d-flex f-column align-start">
+            <input id="quiz-title-input" class="border-none focus-orange no-outline w-75 ms-4 mt-2 mb-3 title-input" type="text" placeholder="Title your quiz here">
+            <small class="text-danger mb-2 ms-4" id="title-alert"></small>
         </div>
     </div>
 
-    <div id="all-questions-container" style="display: none;">
+    <div class="all-quest-container" style="display: none;">
         <div class="w-75 m-auto d-flex f-column align-end">
             <div class="m-auto mt-5" id="questions-view">
                 <h4 class="text-center">All questions</h4>
@@ -117,6 +120,6 @@
     </div>
 
   </body>
-  <script src="edit_view.js" type="module"></script>
+  <script src="create_view.js" type="module"></script>
   <script src="../../utils/log_out.js"></script>
 </html>

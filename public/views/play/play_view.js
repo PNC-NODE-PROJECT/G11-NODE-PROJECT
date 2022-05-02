@@ -9,10 +9,8 @@ import {hide, show} from "../../utils/hide_show.js";
 
 // START QUIZ
 function getAllQuestion(number) {
-    axios.post("/questions/owns", {creator: userId}).then((response) => {
-        let questions = response.data;
-        maxQuestion = questions.length;
-
+    axios.get("/quizzes/quiz/"+quizId).then((response) => {
+        let questions = response.data[0].questions;
         if (number < questions.length) {
             showQuestionOnDom(questions[number]);
             startDuration();
@@ -68,8 +66,8 @@ function getSelectedAnswer() {
 
 // CALCULATE SCORE
 function calculateScore() {
-    axios.post("/questions/owns", {creator: userId}).then((response) => {
-        let questions = response.data;
+    axios.get("/quizzes/quiz/"+quizId).then((response) => {
+        let questions = response.data[0].questions;
         let index = 0;
         for (let item of questions) {
             let isCorrectAll = true;
@@ -110,7 +108,7 @@ function showScore() {
 // UPDATE DOM
 function showQuestionOnDom(item) {
     quest.textContent = item.question;
-    questNumber.textContent = currentQuestNumb + "/" + maxQuestion;
+    questNumber.textContent = currentQuestNumb + "/" + questionAmount;
     ansA.textContent = item.answers.A;
     ansB.textContent = item.answers.B;
     ansC.textContent = item.answers.C;
@@ -180,14 +178,14 @@ function onClickAnswer(e) {
 }
 
 // REFRESH QUESTIONS AMOUNT
-function amoutQuest() {
-    axios.post("/questions/owns", {creator: userId}).then((response) => {
-        featureQuestAmount.textContent = response.data.length + " Questions";
-        questionAmount = response.data.length;
-    }).catch((error) => {
-        console.log(error);
-    })
-}
+// function amoutQuest() {
+//     axios.post("/questions/owns", {creator: userId}).then((response) => {
+//         featureQuestAmount.textContent = response.data.length + " Questions";
+//         questionAmount = response.data.length;
+//     }).catch((error) => {
+//         console.log(error);
+//     })
+// }
 
 // DISPLAY GOOD AND BAD ANSWER
 function displayCorrection() {
@@ -197,8 +195,8 @@ function displayCorrection() {
     }
 
     let index = 0;
-    axios.post("/questions/owns", {creator: userId}).then((response) => {
-        let questions = response.data;
+    axios.get("/quizzes/quiz/"+quizId).then((response) => {
+        let questions = response.data[0].questions;
 
         // LOOP TO DISPLAY ALL CORRECTIONS
         for (let item of questions) {
@@ -231,6 +229,9 @@ function displayCorrection() {
             let headerMenu = document.createElement("div");
             if (myAnswer[index].length == 0) {
                 headerMenu.textContent = "No answer selected!"
+                headerMenu.className = "text-danger me-2";
+            } else if (myAnswer[index].length < questions[index].correct.length) {
+                headerMenu.textContent = "Correct " + myAnswer[index].length + "/" + questions[index].correct.length + " answers";
                 headerMenu.className = "text-danger me-2";
             }
             cardheader.appendChild(headerMenu);
@@ -321,6 +322,8 @@ function paintCorrectAnswers(correctAnswers, answerLetter, i, p) {
         i.textContent = "done";
         i.style.color = "green";
         p.style.color = "green";
+    } else {
+        
     }
 }
 
@@ -333,18 +336,78 @@ function paintUserAnswers(userAnswer, goodOrBad, correctAnswer, answerLetter, i,
     }
 }
 
+// DISPLAY QUIZZES FEATURE
+function displayQuizzesFeature(){
+    
+    while (quizFeatures.lastChild) {
+        quizFeatures.removeChild(quizFeatures.lastChild);
+    }
+
+    let owner = sessionStorage.userId;
+    axios.post("/quizzes/owns", {owner: owner}).then((response) => {
+
+        let quizzes = response.data.reverse();
+        quizzes.forEach(quiz => {
+            let card = document.createElement("div");
+            card.className = "m-auto f-column d-flex justify-content-end quiz-feature rounded-3";
+            card.id = quiz._id;
+            quizFeatures.appendChild(card);
+
+            let cardImage = document.createElement("img");
+            cardImage.width = "200";
+            cardImage.src = "../../images/feature_1.png";
+            card.appendChild(cardImage);
+
+            let cardTitle = document.createElement("h4");
+            cardTitle.className = "mt-3";
+            cardTitle.textContent = quiz.title;
+            card.appendChild(cardTitle);
+
+            let cardQuestions = document.createElement("h5");
+            cardQuestions.className = "mb-3 mt-1 amout-quest";
+            cardQuestions.id = quiz.questions.length;
+            cardQuestions.textContent = quiz.questions.length + " Questions";
+            card.appendChild(cardQuestions);
+
+            let cardButton = document.createElement("button");
+            cardButton.className = "bg-orange px-5 py-2 decoration border-none text-light welcome-btn mt-5 mb-5";
+            cardButton.id = "btn-start-quiz";
+            cardButton.textContent = "PLAY NOW";
+            card.appendChild(cardButton);
+
+        })
+
+    }).catch((error) => {
+        console.log(error);
+    })
+}
+
+
+// CHECK TO START QUIZ
+function onClickFeature(e) {
+    let target = e.target.id;
+    quizId = e.target.parentNode.id;
+    questionAmount = e.target.parentNode.children[2].id;
+    if (target == "btn-start-quiz") {
+        startQuiz();
+    }
+}
+
+ 
+
+
 
 
 
 // VARIABLES
-let userId = sessionStorage.userId;
+// let userId = sessionStorage.userId;
+let quizId = null;
 let questionAmount = 0;
 let maxScore = 0;
 let myScore = 0;
 let myAnswer = [];
 let goodBadAnswers = [];
 let currentQuestNumb = 0;
-let maxQuestion = 0;
 let count = setTimeout(0);
 const durationContainer = document.getElementById("duration-container");
 const durationBar = document.getElementById("duration");
@@ -365,24 +428,23 @@ const domAnswers = document.querySelectorAll("input[name=my-answer]");
 // MAIN
 const answersBox = document.querySelector("#answers-box");
 const activeAnswers = document.querySelectorAll("input[name=my-answer]");
-const btnStartQuiz = document.querySelector("#btn-start-quiz");
 const quizContainer = document.querySelector("#quiz-container");
 const navigation = document.getElementById("navigation");
-const quizFeatureContainer = document.querySelector(".quiz-feature-container");
-const featureQuestAmount = document.querySelector(".amout-quest");
+const quizFeatureContainer = document.querySelector("#quiz-feature-container");
 const btnNext = document.querySelector(".btn-next");
 const btnHome = document.querySelector(".btn-home-contain");
 const computeScoreContainer = document.querySelector("#compute-score-container");
 const totalScore = document.querySelector("#total-score");
 const corretionList = document.querySelector("#correction-list");
 const btnPlayAgain = document.getElementById("btn-play-again");
+const quizFeatures = document.querySelector("#quiz-features");
 
 
-btnStartQuiz.addEventListener("click", startQuiz);
 answersBox.addEventListener("click", onClickAnswer);
 btnNext.addEventListener("click", getSelectedAnswer);
 btnHome.addEventListener("click", backHome);
 btnPlayAgain.addEventListener("click", startQuiz);
+quizFeatures.addEventListener("click", onClickFeature);
 
 
-amoutQuest();
+displayQuizzesFeature();

@@ -50,7 +50,7 @@ body {
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
 
-/* CREATE VIEW */
+/* EDIT VIEW */
 .bg-orange {
     background-color: rgb(231, 73, 0);
 }
@@ -160,6 +160,13 @@ dialog {
     font-weight: bold;
 }
 
+#edit-menu-container {
+    position: sticky;
+    top: 0;
+    z-index: -00000;
+    background: rgb(185, 47, 47);
+}
+
 /* PLAY VIEW */
 .btn-home-contain {
     width: 45px;
@@ -216,6 +223,12 @@ dialog {
 }
 .bg-green {
     background-color: green;
+}
+
+.quiz-feature-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
 }
 
 .quiz-feature {
@@ -275,4 +288,56 @@ dialog {
 
 #btn-back-register i{
     font-size: 30px;
+}
+
+/* CREATE QUIZ */
+#create-menu-container {
+    position: sticky;
+    top: 0;
+    z-index: 00000;
+    background: rgb(185, 47, 47);
+}
+.btn-create-quiz {
+    align-items: flex-end;
+}
+#btn-create-quiz {
+    cursor: pointer;
+
+}
+
+.align-start {
+    align-items: flex-start;
+}
+
+.material-icons.icon-bigger {
+    font-size: 33px;
+}
+
+.create-quiz-contain {
+    height: 89.9vh;
+}
+
+.btn-start-create-quiz {
+    width: 250px;
+    height: 70px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: rgba(231, 73, 0, 0.938);
+    color: white;
+}
+.btn-start-create-quiz:hover{
+    width: 270px;
+    height: 80px;
+    font-size: 22px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.create-quiz-banner {
+    width: 700px;
+    height: 380px;
+    background-image: url(../images/create_quiz_banner.jpg);
+    border-radius: 10px;
 }
