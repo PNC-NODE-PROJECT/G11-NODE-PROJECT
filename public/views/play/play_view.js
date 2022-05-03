@@ -177,7 +177,10 @@ function onClickAnswer(e) {
     }
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 99a5aa4f585dbae40c4ddce9b915dbe15a0996b0
 
 // DISPLAY GOOD AND BAD ANSWER
 function displayCorrection() {
