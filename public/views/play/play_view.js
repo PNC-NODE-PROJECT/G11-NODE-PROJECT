@@ -177,15 +177,7 @@ function onClickAnswer(e) {
     }
 }
 
-// REFRESH QUESTIONS AMOUNT
-// function amoutQuest() {
-//     axios.post("/questions/owns", {creator: userId}).then((response) => {
-//         featureQuestAmount.textContent = response.data.length + " Questions";
-//         questionAmount = response.data.length;
-//     }).catch((error) => {
-//         console.log(error);
-//     })
-// }
+
 
 // DISPLAY GOOD AND BAD ANSWER
 function displayCorrection() {
@@ -228,12 +220,10 @@ function displayCorrection() {
 
             let headerMenu = document.createElement("div");
             if (myAnswer[index].length == 0) {
-                headerMenu.textContent = "No answer selected!"
-                headerMenu.className = "text-danger me-2";
-            } else if (myAnswer[index].length < questions[index].correct.length) {
-                headerMenu.textContent = "Correct " + myAnswer[index].length + "/" + questions[index].correct.length + " answers";
+                headerMenu.textContent = "No answer selected!";
                 headerMenu.className = "text-danger me-2";
             }
+
             cardheader.appendChild(headerMenu);
 
             let cardFooter = document.createElement("div");
@@ -399,7 +389,8 @@ function onClickFeature(e) {
     }
 }
 
- 
+// SAVE FILE AS PDF
+
 
 
 
